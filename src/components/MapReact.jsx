@@ -8,9 +8,9 @@ const INITIAL_CAMERA = {
 };
 const mainCities =
 {
-  Tokyo: { lat: 35.68152646705769, lng: 139.76838545853252 },
-  Osaka: { lat: 34.668609750638005, lng: 135.49808526112534 },
-  Kyoto: { lat: 35.011317032007454, lng: 135.7672398785833 }
+  Tokyo: { position: { lat: 35.68152646705769, lng: 139.76838545853252 } },
+  Osaka: { position: { lat: 34.668609750638005, lng: 135.49808526112534 } },
+  Kyoto: { position: { lat: 35.011317032007454, lng: 135.7672398785833 } }
 }
 
 
@@ -18,15 +18,13 @@ export default function MapReact() {
   const [camera, setCamera] = useState(INITIAL_CAMERA);
   const handleCameraChange = useCallback((e: MapCameraChangedEvent) => setCamera(e.detail), []);
 
+  const citiesMarker = Object.values(mainCities).map(c => <AdvancedMarker position={c.position}><Pin background={"red"}/></AdvancedMarker>);
+
   return (
     <APIProvider apiKey={API_KEY}>
       <div style={{ height: "100vh", width: "100%" }}>
         <Map mapId={MAP_ID} {...camera} onCameraChanged={handleCameraChange}>
-          <AdvancedMarker position={mainCities.Tokyo}>
-            {/* <Pin background={"red"}/> */}
-          </AdvancedMarker>
-          <AdvancedMarker position={mainCities.Osaka}></AdvancedMarker>
-          <AdvancedMarker position={mainCities.Kyoto}></AdvancedMarker>
+          {citiesMarker}
         </Map>
       </div>
     </APIProvider>
