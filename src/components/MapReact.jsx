@@ -17,7 +17,6 @@ const mainCities =
 export default function MapReact() {
   const [camera, setCamera] = useState(INITIAL_CAMERA);
   const handleCameraChange = useCallback((e: MapCameraChangedEvent) => setCamera(e.detail), []);
-
   const citiesMarker = Object.values(mainCities).map(c => <AdvancedMarker position={c.position}><Pin background={"red"}/></AdvancedMarker>);
 
   return (
