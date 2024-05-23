@@ -1,6 +1,6 @@
 import { API_KEY, MAP_ID } from "../config"
 import { useState, useCallback } from "react";
-import { APIProvider, Map, AdvancedMarker, Pin, WindowInfo, MapCameraChangedEvent } from "@vis.gl/react-google-maps";
+import { APIProvider, Map, AdvancedMarker, Pin, WindowInfo, MapCameraChangedEvent, useMapsLibrary } from "@vis.gl/react-google-maps";
 
 const INITIAL_CAMERA = {
   center: { lat: 35.3241946, lng: 138.0303997 },
@@ -13,11 +13,10 @@ const mainCities =
   Kyoto: { position: { lat: 35.011317032007454, lng: 135.7672398785833 } }
 }
 
-
 export default function MapReact() {
   const [camera, setCamera] = useState(INITIAL_CAMERA);
   const handleCameraChange = useCallback((e: MapCameraChangedEvent) => setCamera(e.detail), []);
-  const citiesMarker = Object.values(mainCities).map(c => <AdvancedMarker position={c.position}><Pin background={"red"}/></AdvancedMarker>);
+  const citiesMarker = Object.values(mainCities).map(c => <AdvancedMarker position={c.position}><Pin background={"red"} /></AdvancedMarker>);
 
   return (
     <APIProvider apiKey={API_KEY}>

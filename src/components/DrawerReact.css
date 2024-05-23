@@ -1,0 +1,12 @@
+.scrollable{
+  overflow-y: scroll;
+  display: block;
+}
+
+.no-shadow{
+  box-shadow: 0 0 0 0 rgba(0, 0, 0, 0) !important; 
+}
+
+.hidden {
+  display: none !important;
+}

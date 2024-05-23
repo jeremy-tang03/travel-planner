@@ -9,7 +9,7 @@ export default function App() {
   return (
     <MantineProvider>
       <div className="App">
-        {/* <DrawerReact /> */}
+        <DrawerReact />
         {/* <MapReact /> */}
       </div>
     </MantineProvider>
