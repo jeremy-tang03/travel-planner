@@ -1,6 +1,7 @@
 {
   "name": "planner",
   "version": "0.1.0",
+  "homepage": "https://jeremy-tang03.github.io/travel-planner",
   "private": true,
   "dependencies": {
     "@mantine/carousel": "^7.9.2",
@@ -36,6 +37,8 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
+	  "predeploy": "npm run build",
+	  "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -60,6 +63,7 @@
     ]
   },
   "devDependencies": {
+    "gh-pages": "^6.1.1",
     "postcss": "^8.4.38",
     "postcss-preset-mantine": "^1.15.0",
     "postcss-simple-vars": "^7.0.1"

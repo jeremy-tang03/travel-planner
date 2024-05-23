@@ -4,6 +4,10 @@ import 'react-modern-drawer/dist/index.css'
 import AccordionReact from './AccordionReact';
 import './DrawerReact.css';
 import { Rnd } from 'react-rnd';
+import { ActionIcon, Burger, SegmentedControl, Timeline, Text } from '@mantine/core';
+import { IconLock, IconLockOpen, IconX } from '@tabler/icons-react';
+import { useDisclosure } from '@mantine/hooks';
+import TimelineReact from './TimelineReact';
 
 const defWidth = 250;
 
@@ -25,6 +29,9 @@ export default function DrawerReact() {
     const [duration, setDuration] = useState(300);
     const [direction, setDirection] = useState('left');
     const [className, setClassName] = useState('');
+    const [draggable, setDraggable] = useState(false);
+    const [opened, { toggle }] = useDisclosure();
+    const [controlValue, setControlValue] = useState('Cards');
 
     useEffect(() => {
         if (isOpen) {
@@ -41,9 +48,18 @@ export default function DrawerReact() {
 
     return (
         <>
-            <button onClick={toggleDrawer}>Show</button>
+            <ActionIcon.Group className="top-left">
+                <ActionIcon variant="subtle" color="gray" size="lg" aria-label="Settings">
+                    <Burger size="sm" opened={opened} onClick={() => { toggle(); toggleDrawer() }} aria-label="Toggle navigation" />
+                </ActionIcon>
+                {isOpen ? <ActionIcon variant="subtle" color="rgba(50, 50, 50, 1)" size="lg" aria-label="Settings" onClick={() => setDraggable(!draggable)}>
+                    {draggable ? <IconLockOpen style={{ width: '60%', height: '60%' }} stroke={1.5} /> :
+                        <IconLock style={{ width: '60%', height: '60%' }} stroke={1.5} />}
+                </ActionIcon> : <></>}
+            </ActionIcon.Group>
             <Rnd
                 className={className}
+                style={{ zIndex: 998 }}
                 default={{
                     x: 0,
                     y: 0,
@@ -55,6 +71,7 @@ export default function DrawerReact() {
                 onDragStop={(e, d) => {
                     setX(d.x);
                 }}
+                disableDragging={!draggable}
                 onResize={(e, direction, ref, delta, position) => {
                     setWidth(ref.offsetWidth);
                     setX(position.x);
@@ -74,7 +91,15 @@ export default function DrawerReact() {
                     size={width}
                     duration={duration}
                 >
-                    <AccordionReact />
+                    <h2 className='head'>Japan 2024</h2>
+                    <SegmentedControl
+                        fullWidth
+                        value={controlValue}
+                        onChange={setControlValue}
+                        data={['Cards', 'Timeline']}
+                        className='segmentControl'
+                    />
+                    {controlValue === 'Cards' ? <AccordionReact /> : <TimelineReact />}
                 </Drawer>
             </Rnd>
         </>

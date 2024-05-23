@@ -1,12 +1,28 @@
 .scrollable{
   overflow-y: scroll;
   display: block;
-}
-
-.no-shadow{
-  box-shadow: 0 0 0 0 rgba(0, 0, 0, 0) !important; 
+  box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.5) !important; 
 }
 
 .hidden {
   display: none !important;
+}
+
+.invis {
+  opacity: 0 !important;
+}
+
+.top-left {
+  z-index: 999;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+.head {
+  margin-top: 1em;
+}
+
+.segmentControl {
+  margin-bottom: 0.35em;
 }
