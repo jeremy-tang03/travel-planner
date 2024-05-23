@@ -21,7 +21,7 @@ export default function MapReact() {
   return (
     <APIProvider apiKey={API_KEY}>
       <div style={{ height: "100vh", width: "100%" }}>
-        <Map mapId={MAP_ID} {...camera} onCameraChanged={handleCameraChange}>
+        <Map mapId={MAP_ID} {...camera} onCameraChanged={handleCameraChange} style={{zIndex: 10}}>
           {citiesMarker}
         </Map>
       </div>
