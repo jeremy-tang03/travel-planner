@@ -4,8 +4,8 @@ import 'react-modern-drawer/dist/index.css'
 import AccordionReact from './AccordionReact';
 import './DrawerReact.css';
 import { Rnd } from 'react-rnd';
-import { ActionIcon, Burger, SegmentedControl, Timeline, Text } from '@mantine/core';
-import { IconLock, IconLockOpen, IconX } from '@tabler/icons-react';
+import { ActionIcon, Burger, SegmentedControl } from '@mantine/core';
+import { IconLock, IconLockOpen } from '@tabler/icons-react';
 import { useDisclosure } from '@mantine/hooks';
 import TimelineReact from './TimelineReact';
 

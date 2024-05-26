@@ -1,28 +1,15 @@
 export const days = [
   {
+    "key": "2024-08-10",
     "emoji": "🍎",
     "value": "August 10th",
     "description": "Tokyo",
-    "activities": [
-      {
-        "value": "Arrive at Narita airport around 4pm (take either train/bus, check  price and time)"
-      },
-      {
-        "value": "Get to hotel in Asaku"
-      },
-      {
-        "value": "Exchange money at 7/11 get snacks"
-      },
-      {
-        "value": "Tokyo Station or Asakusa to eat"
-      }
-    ]
   },
   {
+    "key": "2024-08-11",
     "emoji": "🍌",
     "value": "August 11th",
-    "description":
-      "Naturally sweet and potassium-rich fruit. Bananas are a popular choice for their energy-boosting properties and can be enjoyed as a quick snack, added to smoothies, or used in baking."
+    "description": "Ginza"
   },
   {
     "emoji": "🥦",
@@ -152,5 +139,35 @@ export const days = [
   }
 ];
 
-// const activities, move them outside of days
+export const activities = [
+  {
+    "value": "Arrive at Narita airport around 4pm (take either train/bus, check  price and time)",
+    "date": "2024-08-10"
+  },
+  {
+    "value": "Get to hotel in Asaku",
+    "date": "2024-08-10"
+  },
+  {
+    "value": "Exchange money at 7/11 get snacks",
+    "date": "2024-08-10"
+  },
+  {
+    "value": "Tokyo Station or Asakusa to eat",
+    "date": "2024-08-10"
+  },
+  {
+    "value": "Jins eyewear",
+    "date": "2024-08-11"
+  },
+  {
+    "value": "Tsukiji market",
+    "date": "2024-08-11"
+  },
+  {
+    "value": "Shopping GU, Uniqlo, Donki",
+    "date": "2024-08-11"
+  }
+]
+
 // const events = max arrive, kevin leave, ...
