@@ -19,7 +19,7 @@ export default function MapReact(props) {
   const [camera, setCamera] = useState(INITIAL_CAMERA);
   const handleCameraChange = useCallback((e: MapCameraChangedEvent) => setCamera(e.detail), []);
   const citiesMarker = Object.values(mainCities).map(c => <AdvancedMarker key={c.name} position={c.position}><Pin background={"red"} /></AdvancedMarker>);
-  const [apiKey, setApiKey] = useState();
+  const [apiKey, setApiKey] = useState(getApiKey(props.pw));
 
   useEffect(() => props.pw ? () => { setApiKey(getApiKey(props.pw)) } : null, [props.pw]);
   useEffect(() => apiKey ? setMapReady(true) : setMapReady(false), [apiKey]);
