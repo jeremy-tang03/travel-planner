@@ -1,25 +1,10 @@
 import { Timeline, Text } from '@mantine/core';
-import { activities, days } from '../constants';
+import * as helper from '../helper';
 
 export default function TimelineReact() {
-
-  const activs = activities.reduce((a, item) => {
-    const date = item.date;
-    if (!a[date]) {
-      a[date] = [];
-    }
-    a[date].push(item.value);
-    return a;
-  }, {});
-  
-  days.map((day) => {
-    const key = day.key;
-    day.activities = activs[key]
-    return day;
-  })
-
+  const days = helper.getFormattedDays();
   const items = days.map((item) => (
-    <Timeline active={0} bulletSize={20} style={{ marginLeft: '0.5em', marginTop: '1.3em'}}>
+    <Timeline active={0} bulletSize={20} style={{ marginLeft: '0.5em', marginTop: '1.3em' }}>
       <Timeline.Item key={item.value} title={item.value}>
         <Text c="dimmed" size="sm">{item.description}</Text>
       </Timeline.Item>
