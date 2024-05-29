@@ -1,0 +1,517 @@
+/*!
+    Copyright (c) 2011, Yahoo! Inc. All rights reserved.
+    Code licensed under the BSD License:
+    http://developer.yahoo.com/yui/license.html
+    version: 2.9.0
+    */
+
+/*! *****************************************************************************
+Copyright (c) Microsoft Corporation.
+
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+PERFORMANCE OF THIS SOFTWARE.
+***************************************************************************** */
+
+/**
+     * Selection plugin
+     *
+     * @copyright NEURONET - Rafal Pospiech
+     * @author    Rafal Pospiech <neuronet.io@gmail.com>
+     * @module    gantt-schedule-timeline-calendar
+     * @link      https://github.com/neuronetio/gantt-schedule-timeline-calendar
+     * @link      https://gantt-schedule-timeline-calendar.neuronet.io
+     * @version   3.35.5
+     * @released  2024-05-06
+     * @license   SEE LICENSE IN LICENSE FILE
+     */
+
+/**
+   * @license
+   * Copyright 2017 Google LLC
+   * SPDX-License-Identifier: BSD-3-Clause
+   */
+
+/**
+ * @fileOverview
+ * @name asn1-1.0.js
+ * @author Kenji Urushima kenji.urushima@gmail.com
+ * @version asn1 1.0.13 (2017-Jun-02)
+ * @since jsrsasign 2.1
+ * @license <a href="https://kjur.github.io/jsrsasign/license/">MIT License</a>
+ */
+
+/**
+ * @license
+ * Copyright 2017 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+
+/**
+ * @license
+ * Copyright 2020 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+
+/**
+ * @license
+ * Copyright 2021 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+
+/**
+ * @license @tabler/icons-react v3.5.0 - MIT
+ *
+ * This source code is licensed under the MIT license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+/**
+ * @license React
+ * react-dom.production.min.js
+ *
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+/**
+ * @license React
+ * react-jsx-runtime.production.min.js
+ *
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+/**
+ * @license React
+ * react.production.min.js
+ *
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+/**
+ * @license React
+ * scheduler.production.min.js
+ *
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+/**
+ * Api functions
+ *
+ * @copyright NEURONET - Rafal Pospiech
+ * @author    Rafal Pospiech <neuronet.io@gmail.com>
+ * @module    gantt-schedule-timeline-calendar
+ * @link      https://github.com/neuronetio/gantt-schedule-timeline-calendar
+ * @link      https://gantt-schedule-timeline-calendar.neuronet.io
+ * @version   3.35.5
+ * @released  2024-05-06
+ * @license   SEE LICENSE IN LICENSE FILE
+ */
+
+/**
+ * Chart component
+ *
+ * @copyright NEURONET - Rafal Pospiech
+ * @author    Rafal Pospiech <neuronet.io@gmail.com>
+ * @module    gantt-schedule-timeline-calendar
+ * @link      https://github.com/neuronetio/gantt-schedule-timeline-calendar
+ * @link      https://gantt-schedule-timeline-calendar.neuronet.io
+ * @version   3.35.5
+ * @released  2024-05-06
+ * @license   SEE LICENSE IN LICENSE FILE
+ */
+
+/**
+ * ChartCalendar component
+ *
+ * @copyright NEURONET - Rafal Pospiech
+ * @author    Rafal Pospiech <neuronet.io@gmail.com>
+ * @module    gantt-schedule-timeline-calendar
+ * @link      https://github.com/neuronetio/gantt-schedule-timeline-calendar
+ * @link      https://gantt-schedule-timeline-calendar.neuronet.io
+ * @version   3.35.5
+ * @released  2024-05-06
+ * @license   SEE LICENSE IN LICENSE FILE
+ */
+
+/**
+ * ChartCalendarDate component
+ *
+ * @copyright NEURONET - Rafal Pospiech
+ * @author    Rafal Pospiech <neuronet.io@gmail.com>
+ * @module    gantt-schedule-timeline-calendar
+ * @link      https://github.com/neuronetio/gantt-schedule-timeline-calendar
+ * @link      https://gantt-schedule-timeline-calendar.neuronet.io
+ * @version   3.35.5
+ * @released  2024-05-06
+ * @license   SEE LICENSE IN LICENSE FILE
+ */
+
+/**
+ * ChartTimeline component
+ *
+ * @copyright NEURONET - Rafal Pospiech
+ * @author    Rafal Pospiech <neuronet.io@gmail.com>
+ * @module    gantt-schedule-timeline-calendar
+ * @link      https://github.com/neuronetio/gantt-schedule-timeline-calendar
+ * @link      https://gantt-schedule-timeline-calendar.neuronet.io
+ * @version   3.35.5
+ * @released  2024-05-06
+ * @license   SEE LICENSE IN LICENSE FILE
+ */
+
+/**
+ * ChartTimelineGrid component
+ *
+ * @copyright NEURONET - Rafal Pospiech
+ * @author    Rafal Pospiech <neuronet.io@gmail.com>
+ * @module    gantt-schedule-timeline-calendar
+ * @link      https://github.com/neuronetio/gantt-schedule-timeline-calendar
+ * @link      https://gantt-schedule-timeline-calendar.neuronet.io
+ * @version   3.35.5
+ * @released  2024-05-06
+ * @license   SEE LICENSE IN LICENSE FILE
+ */
+
+/**
+ * ChartTimelineGridRow component
+ *
+ * @copyright NEURONET - Rafal Pospiech
+ * @author    Rafal Pospiech <neuronet.io@gmail.com>
+ * @module    gantt-schedule-timeline-calendar
+ * @link      https://github.com/neuronetio/gantt-schedule-timeline-calendar
+ * @link      https://gantt-schedule-timeline-calendar.neuronet.io
+ * @version   3.35.5
+ * @released  2024-05-06
+ * @license   SEE LICENSE IN LICENSE FILE
+ */
+
+/**
+ * ChartTimelineGridRowCell component
+ *
+ * @copyright NEURONET - Rafal Pospiech
+ * @author    Rafal Pospiech <neuronet.io@gmail.com>
+ * @module    gantt-schedule-timeline-calendar
+ * @link      https://github.com/neuronetio/gantt-schedule-timeline-calendar
+ * @link      https://gantt-schedule-timeline-calendar.neuronet.io
+ * @version   3.35.5
+ * @released  2024-05-06
+ * @license   SEE LICENSE IN LICENSE FILE
+ */
+
+/**
+ * ChartTimelineItems component
+ *
+ * @copyright NEURONET - Rafal Pospiech
+ * @author    Rafal Pospiech <neuronet.io@gmail.com>
+ * @module    gantt-schedule-timeline-calendar
+ * @link      https://github.com/neuronetio/gantt-schedule-timeline-calendar
+ * @link      https://gantt-schedule-timeline-calendar.neuronet.io
+ * @version   3.35.5
+ * @released  2024-05-06
+ * @license   SEE LICENSE IN LICENSE FILE
+ */
+
+/**
+ * ChartTimelineItemsRow component
+ *
+ * @copyright NEURONET - Rafal Pospiech
+ * @author    Rafal Pospiech <neuronet.io@gmail.com>
+ * @module    gantt-schedule-timeline-calendar
+ * @link      https://github.com/neuronetio/gantt-schedule-timeline-calendar
+ * @link      https://gantt-schedule-timeline-calendar.neuronet.io
+ * @version   3.35.5
+ * @released  2024-05-06
+ * @license   SEE LICENSE IN LICENSE FILE
+ */
+
+/**
+ * ChartTimelineItemsRowItem component
+ *
+ * @copyright NEURONET - Rafal Pospiech
+ * @author    Rafal Pospiech <neuronet.io@gmail.com>
+ * @module    gantt-schedule-timeline-calendar
+ * @link      https://github.com/neuronetio/gantt-schedule-timeline-calendar
+ * @link      https://gantt-schedule-timeline-calendar.neuronet.io
+ * @version   3.35.5
+ * @released  2024-05-06
+ * @license   SEE LICENSE IN LICENSE FILE
+ */
+
+/**
+ * Gantt-Schedule-Timeline-Calendar IDApi
+ *
+ * @copyright NEURONET - Rafal Pospiech
+ * @author    Rafal Pospiech <neuronet.io@gmail.com>
+ * @module    gantt-schedule-timeline-calendar
+ * @link      https://github.com/neuronetio/gantt-schedule-timeline-calendar
+ * @link      https://gantt-schedule-timeline-calendar.neuronet.io
+ * @version   3.35.5
+ * @released  2024-05-06
+ * @license   SEE LICENSE IN LICENSE FILE
+ */
+
+/**
+ * Gantt-Schedule-Timeline-Calendar Slots
+ *
+ * @copyright NEURONET - Rafal Pospiech
+ * @author    Rafal Pospiech <neuronet.io@gmail.com>
+ * @module    gantt-schedule-timeline-calendar
+ * @link      https://github.com/neuronetio/gantt-schedule-timeline-calendar
+ * @link      https://gantt-schedule-timeline-calendar.neuronet.io
+ * @version   3.35.5
+ * @released  2024-05-06
+ * @license   SEE LICENSE IN LICENSE FILE
+ */
+
+/**
+ * Gantt-Schedule-Timeline-Calendar Time api
+ *
+ * @copyright NEURONET - Rafal Pospiech
+ * @author    Rafal Pospiech <neuronet.io@gmail.com>
+ * @module    gantt-schedule-timeline-calendar
+ * @link      https://github.com/neuronetio/gantt-schedule-timeline-calendar
+ * @link      https://gantt-schedule-timeline-calendar.neuronet.io
+ * @version   3.35.5
+ * @released  2024-05-06
+ * @license   SEE LICENSE IN LICENSE FILE
+ */
+
+/**
+ * Gantt-Schedule-Timeline-Calendar component
+ *
+ * @copyright NEURONET - Rafal Pospiech
+ * @author    Rafal Pospiech <neuronet.io@gmail.com>
+ * @module    gantt-schedule-timeline-calendar
+ * @link      https://github.com/neuronetio/gantt-schedule-timeline-calendar
+ * @link      https://gantt-schedule-timeline-calendar.neuronet.io
+ * @version   3.35.5
+ * @released  2024-05-06
+ * @license   SEE LICENSE IN LICENSE FILE
+ */
+
+/**
+ * Gantt-Schedule-Timeline-Calendar default configuration
+ *
+ * @copyright NEURONET - Rafal Pospiech
+ * @author    Rafal Pospiech <neuronet.io@gmail.com>
+ * @module    gantt-schedule-timeline-calendar
+ * @link      https://github.com/neuronetio/gantt-schedule-timeline-calendar
+ * @link      https://gantt-schedule-timeline-calendar.neuronet.io
+ * @version   3.35.5
+ * @released  2024-05-06
+ * @license   SEE LICENSE IN LICENSE FILE
+ */
+
+/**
+ * Gantt-Schedule-Timeline-Calendar helpers
+ *
+ * @copyright NEURONET - Rafal Pospiech
+ * @author    Rafal Pospiech <neuronet.io@gmail.com>
+ * @module    gantt-schedule-timeline-calendar
+ * @link      https://github.com/neuronetio/gantt-schedule-timeline-calendar
+ * @link      https://gantt-schedule-timeline-calendar.neuronet.io
+ * @version   3.35.5
+ * @released  2024-05-06
+ * @license   SEE LICENSE IN LICENSE FILE
+ */
+
+/**
+ * ItemMovement plugin
+ *
+ * @copyright NEURONET - Rafal Pospiech
+ * @author    Rafal Pospiech <neuronet.io@gmail.com>
+ * @module    gantt-schedule-timeline-calendar
+ * @link      https://github.com/neuronetio/gantt-schedule-timeline-calendar
+ * @link      https://gantt-schedule-timeline-calendar.neuronet.io
+ * @version   3.35.5
+ * @released  2024-05-06
+ * @license   SEE LICENSE IN LICENSE FILE
+ */
+
+/**
+ * ItemResizing plugin
+ *
+ * @copyright NEURONET - Rafal Pospiech
+ * @author    Rafal Pospiech <neuronet.io@gmail.com>
+ * @module    gantt-schedule-timeline-calendar
+ * @link      https://github.com/neuronetio/gantt-schedule-timeline-calendar
+ * @link      https://gantt-schedule-timeline-calendar.neuronet.io
+ * @version   3.35.5
+ * @released  2024-05-06
+ * @license   SEE LICENSE IN LICENSE FILE
+ */
+
+/**
+ * List component
+ *
+ * @copyright NEURONET - Rafal Pospiech
+ * @author    Rafal Pospiech <neuronet.io@gmail.com>
+ * @module    gantt-schedule-timeline-calendar
+ * @link      https://github.com/neuronetio/gantt-schedule-timeline-calendar
+ * @link      https://gantt-schedule-timeline-calendar.neuronet.io
+ * @version   3.35.5
+ * @released  2024-05-06
+ * @license   SEE LICENSE IN LICENSE FILE
+ */
+
+/**
+ * ListColumn component
+ *
+ * @copyright NEURONET - Rafal Pospiech
+ * @author    Rafal Pospiech <neuronet.io@gmail.com>
+ * @module    gantt-schedule-timeline-calendar
+ * @link      https://github.com/neuronetio/gantt-schedule-timeline-calendar
+ * @link      https://gantt-schedule-timeline-calendar.neuronet.io
+ * @version   3.35.5
+ * @released  2024-05-06
+ * @license   SEE LICENSE IN LICENSE FILE
+ */
+
+/**
+ * ListColumnHeader component
+ *
+ * @copyright NEURONET - Rafal Pospiech
+ * @author    Rafal Pospiech <neuronet.io@gmail.com>
+ * @module    gantt-schedule-timeline-calendar
+ * @link      https://github.com/neuronetio/gantt-schedule-timeline-calendar
+ * @link      https://gantt-schedule-timeline-calendar.neuronet.io
+ * @version   3.35.5
+ * @released  2024-05-06
+ * @license   SEE LICENSE IN LICENSE FILE
+ */
+
+/**
+ * ListColumnHeaderResizer component
+ *
+ * @copyright NEURONET - Rafal Pospiech
+ * @author    Rafal Pospiech <neuronet.io@gmail.com>
+ * @module    gantt-schedule-timeline-calendar
+ * @link      https://github.com/neuronetio/gantt-schedule-timeline-calendar
+ * @link      https://gantt-schedule-timeline-calendar.neuronet.io
+ * @version   3.35.5
+ * @released  2024-05-06
+ * @license   SEE LICENSE IN LICENSE FILE
+ */
+
+/**
+ * ListColumnRow component
+ *
+ * @copyright NEURONET - Rafal Pospiech
+ * @author    Rafal Pospiech <neuronet.io@gmail.com>
+ * @module    gantt-schedule-timeline-calendar
+ * @link      https://github.com/neuronetio/gantt-schedule-timeline-calendar
+ * @link      https://gantt-schedule-timeline-calendar.neuronet.io
+ * @version   3.35.5
+ * @released  2024-05-06
+ * @license   SEE LICENSE IN LICENSE FILE
+ */
+
+/**
+ * ListColumnRowExpander component
+ *
+ * @copyright NEURONET - Rafal Pospiech
+ * @author    Rafal Pospiech <neuronet.io@gmail.com>
+ * @module    gantt-schedule-timeline-calendar
+ * @link      https://github.com/neuronetio/gantt-schedule-timeline-calendar
+ * @link      https://gantt-schedule-timeline-calendar.neuronet.io
+ * @version   3.35.5
+ * @released  2024-05-06
+ * @license   SEE LICENSE IN LICENSE FILE
+ */
+
+/**
+ * ListColumnRowExpanderToggle component
+ *
+ * @copyright NEURONET - Rafal Pospiech
+ * @author    Rafal Pospiech <neuronet.io@gmail.com>
+ * @module    gantt-schedule-timeline-calendar
+ * @link      https://github.com/neuronetio/gantt-schedule-timeline-calendar
+ * @link      https://gantt-schedule-timeline-calendar.neuronet.io
+ * @version   3.35.5
+ * @released  2024-05-06
+ * @license   SEE LICENSE IN LICENSE FILE
+ */
+
+/**
+ * ListToggle component
+ *
+ * @copyright NEURONET - Rafal Pospiech
+ * @author    Rafal Pospiech <neuronet.io@gmail.com>
+ * @module    gantt-schedule-timeline-calendar
+ * @link      https://github.com/neuronetio/gantt-schedule-timeline-calendar
+ * @link      https://gantt-schedule-timeline-calendar.neuronet.io
+ * @version   3.35.5
+ * @released  2024-05-06
+ * @license   SEE LICENSE IN LICENSE FILE
+ */
+
+/**
+ * Main api
+ *
+ * @copyright NEURONET - Rafal Pospiech
+ * @author    Rafal Pospiech <neuronet.io@gmail.com>
+ * @module    gantt-schedule-timeline-calendar
+ * @link      https://github.com/neuronetio/gantt-schedule-timeline-calendar
+ * @link      https://gantt-schedule-timeline-calendar.neuronet.io
+ * @version   3.35.5
+ * @released  2024-05-06
+ * @license   SEE LICENSE IN LICENSE FILE
+ */
+
+/**
+ * Main component
+ *
+ * @copyright NEURONET - Rafal Pospiech
+ * @author    Rafal Pospiech <neuronet.io@gmail.com>
+ * @module    gantt-schedule-timeline-calendar
+ * @link      https://github.com/neuronetio/gantt-schedule-timeline-calendar
+ * @link      https://gantt-schedule-timeline-calendar.neuronet.io
+ * @version   3.35.5
+ * @released  2024-05-06
+ * @license   SEE LICENSE IN LICENSE FILE
+ */
+
+/**
+ * ScrollBar component
+ *
+ * @copyright NEURONET - Rafal Pospiech
+ * @author    Rafal Pospiech <neuronet.io@gmail.com>
+ * @module    gantt-schedule-timeline-calendar
+ * @link      https://github.com/neuronetio/gantt-schedule-timeline-calendar
+ * @link      https://gantt-schedule-timeline-calendar.neuronet.io
+ * @version   3.35.5
+ * @released  2024-05-06
+ * @license   SEE LICENSE IN LICENSE FILE
+ */
+
+/**
+ * TimelinePointer plugin
+ *
+ * @copyright NEURONET - Rafal Pospiech
+ * @author    Rafal Pospiech <neuronet.io@gmail.com>
+ * @module    gantt-schedule-timeline-calendar
+ * @link      https://github.com/neuronetio/gantt-schedule-timeline-calendar
+ * @link      https://gantt-schedule-timeline-calendar.neuronet.io
+ * @version   3.35.5
+ * @released  2024-05-06
+ * @license   SEE LICENSE IN LICENSE FILE
+ */
