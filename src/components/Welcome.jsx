@@ -1,13 +1,27 @@
 import { useDisclosure } from '@mantine/hooks';
 import { Modal, Button, ScrollArea, List, TextInput } from '@mantine/core';
-import { useField } from '@mantine/form';
+import { useField, useForm } from '@mantine/form';
 
 export default function Welcome(props) {
-  const [opened, { open, close }] = useDisclosure(false);
+  const [opened, { open, close }] = useDisclosure(true);
   const field = useField({
     initialValue: '',
-    validate: (value) => (value.trim().length < 1 ? 'Code is required' : props.setHasCode(true)),
+    validate: (value) => (value.trim().length < 1 ? 'Code is required' : updateCode(value)),
   });
+  const form = useForm({
+    mode: 'uncontrolled',
+    initialValues: {
+      code: '',
+    },
+
+    validate: {
+      code: (value) => (value.trim().length < 1 ? 'Code is required' : updateCode(value)),
+    },
+  });
+  const updateCode = (value) => {
+    props.setCode(value);
+    props.setHasCode(true);
+  }
 
   return (
     <>
@@ -20,6 +34,8 @@ export default function Welcome(props) {
           blur: 3,
         }}
         withCloseButton={false}
+        closeOnEscape={false}
+        closeOnClickOutside={false}
       >
         {/* Modal content */}
         <ScrollArea h={150} type="always" offsetScrollbars scrollbarSize={8} scrollbars="y">
@@ -31,11 +47,11 @@ export default function Welcome(props) {
             <List.Item>Submit a pull request once you are done</List.Item>
           </List>
         </ScrollArea>
-        <TextInput {...field.getInputProps()} label="Code" placeholder="Enter code here" mb="md" />
-        <Button onClick={field.validate}>Continue</Button>
+        <form onSubmit={form.onSubmit(() => { })}>
+          <TextInput key={form.key('code')} {...form.getInputProps('code')} label="Code" placeholder="Enter code here" mb="md" data-autofocus />
+          <Button type="submit">Continue</Button>
+        </form>
       </Modal>
-
-      <Button onClick={open}>Open modal</Button>
     </>
   );
 }
