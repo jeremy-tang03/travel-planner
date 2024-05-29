@@ -4,12 +4,12 @@ import 'react-modern-drawer/dist/index.css'
 import AccordionReact from './AccordionReact';
 import './DrawerReact.css';
 import { Rnd } from 'react-rnd';
-import { ActionIcon, Burger, SegmentedControl } from '@mantine/core';
+import { ActionIcon, Burger, SegmentedControl, ScrollArea } from '@mantine/core';
 import { IconLock, IconLockOpen } from '@tabler/icons-react';
 import { useDisclosure } from '@mantine/hooks';
 import TimelineReact from './TimelineReact';
 
-const defWidth = 250;
+const defWidth = 290;
 
 export default function DrawerReact() {
     const [isOpen, setIsOpen] = useState(false);
@@ -59,7 +59,7 @@ export default function DrawerReact() {
             </ActionIcon.Group>
             <Rnd
                 className={className}
-                style={{ zIndex: 998 }}
+                style={{ zIndex: 994 }}
                 default={{
                     x: 0,
                     y: 0,
@@ -91,15 +91,18 @@ export default function DrawerReact() {
                     size={width}
                     duration={duration}
                 >
-                    <h2 className='head'>Japan 2024</h2>
-                    <SegmentedControl
-                        fullWidth
-                        value={controlValue}
-                        onChange={setControlValue}
-                        data={['Cards', 'Timeline']}
-                        className='segmentControl'
-                    />
-                    {controlValue === 'Cards' ? <AccordionReact /> : <TimelineReact />}
+                    <ScrollArea h={window.innerHeight} type="scroll" offsetScrollbars scrollbarSize={8}>
+                        <h2 className='head'>Japan 2024</h2>
+                        <SegmentedControl
+                            fullWidth
+                            value={controlValue}
+                            onChange={setControlValue}
+                            data={['Cards', 'Timeline']}
+                            className='segmentControl'
+                        />
+                        {controlValue === 'Cards' ? <AccordionReact /> : <TimelineReact />}
+                    </ScrollArea>
+
                 </Drawer>
             </Rnd>
         </>

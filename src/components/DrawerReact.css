@@ -1,5 +1,4 @@
 .scrollable{
-  overflow-y: scroll;
   display: block;
   box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.5) !important; 
 }
@@ -13,14 +12,14 @@
 }
 
 .top-left {
-  z-index: 999;
+  z-index: 995;
   position: fixed;
   top: 0;
   left: 0;
 }
 
 .head {
-  margin-top: 1em;
+  margin-top: 1.35em;
 }
 
 .segmentControl {
