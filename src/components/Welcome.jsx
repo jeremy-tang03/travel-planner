@@ -1,26 +1,21 @@
 import { useDisclosure } from '@mantine/hooks';
 import { Modal, Button, ScrollArea, List, TextInput } from '@mantine/core';
-import { useField, useForm } from '@mantine/form';
+import { useForm } from '@mantine/form';
 
-export default function Welcome(props) {
+export default function Welcome({ setCode, setHasCode }) {
   const [opened, { open, close }] = useDisclosure(true);
-  const field = useField({
-    initialValue: '',
-    validate: (value) => (value.trim().length < 1 ? 'Code is required' : updateCode(value)),
-  });
   const form = useForm({
     mode: 'uncontrolled',
     initialValues: {
       code: '',
     },
-
     validate: {
       code: (value) => (value.trim().length < 1 ? 'Code is required' : updateCode(value)),
     },
   });
   const updateCode = (value) => {
-    props.setCode(value);
-    props.setHasCode(true);
+    setCode(value);
+    setHasCode(true);
   }
 
   return (
