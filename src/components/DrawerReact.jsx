@@ -11,7 +11,7 @@ import TimelineReact from './TimelineReact';
 
 const defWidth = 290;
 
-export default function DrawerReact() {
+export default function DrawerReact({ data }) {
     const [isOpen, setIsOpen] = useState(false);
     const toggleDrawer = () => {
         if (x + (width / 2) < window.innerWidth / 2) {
@@ -59,7 +59,7 @@ export default function DrawerReact() {
             </ActionIcon.Group>
             <Rnd
                 className={className}
-                style={{ zIndex: 994 }}
+                style={{ zIndex: 100 }}
                 default={{
                     x: 0,
                     y: 0,
@@ -100,7 +100,7 @@ export default function DrawerReact() {
                             data={['Cards', 'Timeline']}
                             className='segmentControl'
                         />
-                        {controlValue === 'Cards' ? <AccordionReact /> : <TimelineReact />}
+                        {controlValue === 'Cards' ? <AccordionReact data={data} /> : <TimelineReact data={data} />}
                     </ScrollArea>
 
                 </Drawer>

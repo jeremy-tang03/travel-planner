@@ -1,10 +1,10 @@
 import { API_KEY, MAP_ID } from "../config"
 import { useRef, useState, useCallback, useEffect } from "react";
 import {
-  APIProvider, Map, AdvancedMarker, Pin, WindowInfo, MapCameraChangedEvent,
-  useMapsLibrary, useMap, ControlPosition, MapControl,
+  APIProvider, Map, AdvancedMarker, Pin, MapCameraChangedEvent,
+  useMapsLibrary, useMap, ControlPosition, MapControl
 } from "@vis.gl/react-google-maps";
-import { getApiKey } from "../helper";
+import { getKey } from "../helper";
 import { TextInput } from '@mantine/core';
 
 const INITIAL_CAMERA = {
@@ -60,7 +60,6 @@ const MapHandler = ({ place, setCurrentMarker }) => {
 
   useEffect(() => {
     if (!map || !place) return;
-
     if (place.geometry?.viewport) {
       map.fitBounds(place.geometry?.viewport);
     }
@@ -83,17 +82,18 @@ export default function MapReact({ pw }) {
   const handleCameraChange = useCallback((e: MapCameraChangedEvent) => setCamera(e.detail), []);
   const citiesMarker = Object.values(mainCities).map(
     c => <AdvancedMarker key={c.name} position={c.position}><Pin background={"red"} /></AdvancedMarker>);
-  const [apiKey, setApiKey] = useState(getApiKey(pw));
+  const [apiKey, setApiKey] = useState(getKey(pw));
   const [selectedPlace, setSelectedPlace] = useState(null);
   const [currentMarker, setCurrentMarker] = useState(null);
 
-  useEffect(() => pw ? () => { setApiKey(getApiKey(pw)) } : null, [pw]);
+  useEffect(() => pw ? () => { setApiKey(getKey(pw)) } : null, [pw]);
   useEffect(() => apiKey || apiKey != null || apiKey !== "" ? setMapReady(true) : setMapReady(false), [apiKey]);
+  // fetch(`https://maps.google.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=${apiKey}`).then(res => res.json()).then(data => {console.log(data.results[0].geometry.location)});
 
   return (
     <>
       {mapReady ?
-        <APIProvider apiKey={apiKey} >
+        <APIProvider apiKey={apiKey} solutionChannel="" >
           <div style={{ height: "100vh", width: "100%" }}>
             <Map mapId={MAP_ID} {...camera} onCameraChanged={handleCameraChange} style={{ zIndex: 10 }} disableDefaultUI={true}>
               {citiesMarker}

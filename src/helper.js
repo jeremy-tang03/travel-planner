@@ -1,7 +1,7 @@
-import { activities, days } from './constants';
+import { fetchGoogleSheetsData } from 'google-sheets-mapper';
 
-export function getFormattedDays() {
-  const activs = activities.reduce((a, item) => {
+export function getFormattedDays(data) {
+  const activs = data.activities.reduce((a, item) => {
     const date = item.date;
     if (!a[date]) {
       a[date] = [];
@@ -10,14 +10,14 @@ export function getFormattedDays() {
     return a;
   }, {});
 
-  return days.map((day) => {
+  return data.days.map((day) => {
     const key = day.key;
     day.activities = activs[key]
     return day;
   })
 }
 
-// export function generateSecret(inputString, pw) {
+// function generateSecret(inputString, pw) {
 //   const inputLength = inputString.length;
 //   const pwLength = pw.length;
 //   let result = '';
@@ -38,8 +38,8 @@ export function getFormattedDays() {
 //   return { "result": result, "indexes": indexes };
 // }
 
-export function getApiKey(pw) {
-  const secret = `,+J\"!C&''@8+76=51}$626E#\"=r&49/:?3:=s=3`;
+export function getKey(pw, secret = `,+J\"!C&''@8+76=51}$626E#\"=r&49/:?3:=s=3`,
+  indexes = [0, 1, 6, 7, 14, 15, 18, 20, 25, 27, 28, 30, 31, 32, 35, 37, 38]) {
   const secretLength = secret.length;
   const pwLength = pw.length;
   let key = '';
@@ -48,7 +48,6 @@ export function getApiKey(pw) {
     const secretCharCode = secretChar.charCodeAt(0);
     const pwChar = pw[i % pwLength];
     const pwCharCode = pwChar.charCodeAt(0);
-    const indexes = [0, 1, 6, 7, 14, 15, 18, 20, 25, 27, 28, 30, 31, 32, 35, 37, 38]
     let keyCharCode = (secretCharCode - pwCharCode + 128) % 128;
     if (indexes.includes(i)) {
       keyCharCode = keyCharCode - 33;
@@ -57,4 +56,24 @@ export function getApiKey(pw) {
     key += originalChar;
   }
   return key;
+}
+
+export async function getSheetsData(code, sheet = "") {
+  const key = getKey(code);
+  const sheetId = getKey(code, `{w*r4"*}4~3-'':;/'1>32}('C/:%@/9,%6/#35D9?;`,
+    [6, 13, 15, 16, 18, 24, 26, 28, 29, 31, 32, 34, 35, 37, 39, 41, 43]);
+  try {
+    let res = await fetchGoogleSheetsData({
+      apiKey: key,
+      sheetId: sheetId,
+    });
+    const sheetsData = {};
+    res.forEach(sheet => {
+      sheetsData[sheet.id.toLowerCase()] = sheet.data;
+    });
+    return sheetsData;
+  } catch (error) {
+    // console.error(error);
+    return {error: error}
+  }
 }
