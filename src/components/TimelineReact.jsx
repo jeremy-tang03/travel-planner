@@ -7,10 +7,24 @@ export default function TimelineReact({ data }) {
       <Timeline.Item key={item.value} title={item.value}>
         <Text c="dimmed" size="sm">{item.description}</Text>
       </Timeline.Item>
+      {item.tasks ?
+        item.tasks.map((task) => (
+          <Timeline.Item key={task.value}>
+            <Text c="dimmed" size="sm">{task.value}</Text>
+          </Timeline.Item>
+        ))
+        : <></>}
       {item.activities ?
-        item.activities.map((activ) => (
-          <Timeline.Item key={activ}>
-            <Text c="dimmed" size="sm">{activ}</Text>
+        item.activities.map((activity) => (
+          <Timeline.Item key={activity.value}>
+            <Text c="dimmed" size="sm">{activity.value}</Text>
+          </Timeline.Item>
+        ))
+        : <></>}
+        {item.restaurants ?
+        item.restaurants.map((restaurant) => (
+          <Timeline.Item key={restaurant.value}>
+            <Text c="dimmed" size="sm">{restaurant.value}</Text>
           </Timeline.Item>
         ))
         : <></>}
