@@ -1,20 +1,27 @@
 import { fetchGoogleSheetsData } from 'google-sheets-mapper';
 
 export function getFormattedDays(data) {
-  const activs = data.activities.reduce((a, item) => {
+  const activities = reduceData(data, "activities");
+  const tasks = reduceData(data, "tasks");
+  const restaurants = reduceData(data, "restaurants");
+  return data.days.map((day) => {
+    const key = day.key;
+    day.activities = activities[key]
+    day.tasks = tasks[key]
+    day.restaurants = restaurants[key]
+    return day;
+  })
+}
+
+function reduceData(data, field){
+  return data[field].reduce((a, item) => {
     const date = item.date;
     if (!a[date]) {
       a[date] = [];
     }
-    a[date].push(item.value);
+    a[date].push(item);
     return a;
-  }, {});
-
-  return data.days.map((day) => {
-    const key = day.key;
-    day.activities = activs[key]
-    return day;
-  })
+  }, {})
 }
 
 // function generateSecret(inputString, pw) {
@@ -38,7 +45,7 @@ export function getFormattedDays(data) {
 //   return { "result": result, "indexes": indexes };
 // }
 
-export function getKey(pw, secret = `,+J\"!C&''@8+76=51}$626E#\"=r&49/:?3:=s=3`,
+export function getKey(pw, secret = `,+J"!C&''@8+76=51}$626E#"=r&49/:?3:=s=3`,
   indexes = [0, 1, 6, 7, 14, 15, 18, 20, 25, 27, 28, 30, 31, 32, 35, 37, 38]) {
   const secretLength = secret.length;
   const pwLength = pw.length;
