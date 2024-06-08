@@ -1,6 +1,6 @@
 import '@mantine/core/styles.css';
 import { useState, useEffect } from 'react';
-import { MantineProvider, Tabs } from '@mantine/core';
+import { Tabs } from '@mantine/core';
 import MapReact from './MapReact';
 import DrawerReact from './DrawerReact';
 import Gantt from './Gantt';
@@ -17,8 +17,7 @@ export default function Home() {
   }, [code, hasCode]);
 
   return (
-    <MantineProvider>
-      <div className="App">
+      <>
         <Welcome setHasCode={setHasCode} setCode={setCode} />
         {!hasCode ? <></> :
           <>
@@ -37,7 +36,6 @@ export default function Home() {
               </Tabs.Panel>
             </Tabs>
           </>}
-      </div>
-    </MantineProvider>
+      </>
   );
 }

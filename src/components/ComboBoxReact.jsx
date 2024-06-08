@@ -30,7 +30,7 @@ export default function ComboBox({ groupBy, setGroupBy }) {
           rightSectionPointerEvents="none"
           onClick={() => combobox.toggleDropdown()}
         >
-          {groupBy || <Input.Placeholder>Pick value</Input.Placeholder>}
+          {groupBy || <Input.Placeholder>None</Input.Placeholder>}
         </InputBase>
       </Combobox.Target>
 
