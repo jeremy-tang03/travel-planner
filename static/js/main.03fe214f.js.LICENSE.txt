@@ -20,18 +20,7 @@ OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
 PERFORMANCE OF THIS SOFTWARE.
 ***************************************************************************** */
 
-/**
-     * Selection plugin
-     *
-     * @copyright NEURONET - Rafal Pospiech
-     * @author    Rafal Pospiech <neuronet.io@gmail.com>
-     * @module    gantt-schedule-timeline-calendar
-     * @link      https://github.com/neuronetio/gantt-schedule-timeline-calendar
-     * @link      https://gantt-schedule-timeline-calendar.neuronet.io
-     * @version   3.35.5
-     * @released  2024-05-06
-     * @license   SEE LICENSE IN LICENSE FILE
-     */
+/*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */
 
 /**
    * @license
@@ -335,19 +324,6 @@ PERFORMANCE OF THIS SOFTWARE.
  */
 
 /**
- * ItemMovement plugin
- *
- * @copyright NEURONET - Rafal Pospiech
- * @author    Rafal Pospiech <neuronet.io@gmail.com>
- * @module    gantt-schedule-timeline-calendar
- * @link      https://github.com/neuronetio/gantt-schedule-timeline-calendar
- * @link      https://gantt-schedule-timeline-calendar.neuronet.io
- * @version   3.35.5
- * @released  2024-05-06
- * @license   SEE LICENSE IN LICENSE FILE
- */
-
-/**
  * ItemResizing plugin
  *
  * @copyright NEURONET - Rafal Pospiech
@@ -492,6 +468,19 @@ PERFORMANCE OF THIS SOFTWARE.
 
 /**
  * ScrollBar component
+ *
+ * @copyright NEURONET - Rafal Pospiech
+ * @author    Rafal Pospiech <neuronet.io@gmail.com>
+ * @module    gantt-schedule-timeline-calendar
+ * @link      https://github.com/neuronetio/gantt-schedule-timeline-calendar
+ * @link      https://gantt-schedule-timeline-calendar.neuronet.io
+ * @version   3.35.5
+ * @released  2024-05-06
+ * @license   SEE LICENSE IN LICENSE FILE
+ */
+
+/**
+ * TimeBookmarks plugin
  *
  * @copyright NEURONET - Rafal Pospiech
  * @author    Rafal Pospiech <neuronet.io@gmail.com>
