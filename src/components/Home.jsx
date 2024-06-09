@@ -38,7 +38,7 @@ export default function Home() {
               <Gantt data={data} isPC={isPC} />
             </Tabs.Panel>
             <Tabs.Panel value="map">
-              <MapReact pw={code} isPC={isPC} />
+              <MapReact pw={code} data={data} isPC={isPC} />
             </Tabs.Panel>
           </Tabs>
         </>}

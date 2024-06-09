@@ -65,7 +65,7 @@ const MapHandler = ({ place, setCurrentMarker }) => {
   return null;
 };
 
-export default function MapReact({ pw, isPC }) {
+export default function MapReact({ pw, data, isPC }) {
   const INITIAL_CAMERA = {
     center: { lat: 35.3241946, lng: 138.0303997 },
     zoom: (isPC ? 8 : 6.3)

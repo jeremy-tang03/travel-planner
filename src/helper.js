@@ -84,3 +84,13 @@ export async function getSheetsData(code, sheet = "") {
     return {error: error}
   }
 }
+
+export function getBadgeColor(value) {
+  if (value.includes("Tokyo")) return "blue";
+  else if (value.includes("Kyoto")) return "#777a5b";
+  else if (value.includes("Osaka")) return "#9e241e";
+  else if (value.includes("Dine in")) return "brown";
+  else if (value.includes("Takeout")) return "green";
+  else if (value.includes("Delivery")) return "yellow";
+  else return "pink";
+}

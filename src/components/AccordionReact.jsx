@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import { Accordion, Group, Badge, ActionIcon, AccordionControlProps, Center } from '@mantine/core';
+import { Accordion, Group, Badge, ActionIcon, AccordionControlProps, Center, Text, Divider } from '@mantine/core';
 import { IconDots } from '@tabler/icons-react';
-import { getFormattedDays } from '../helper';
+import { getFormattedDays, getBadgeColor } from '../helper';
 import ComboBox from './ComboBoxReact';
 import RestaurantCard from './RestaurantCard';
 
@@ -20,7 +20,7 @@ export default function AccordionReact({ data }) {
   const [formattedDays, setFormattedDays] = useState([]);
   const [groupBy, setGroupBy] = useState("");
   const [items, setItems] = useState(<></>);
-  const [values, setValues] = useState([]);
+  const [openedValues, setOpenedValues] = useState([]);
 
   useEffect(() => {
     if (data != null && !data.error) {
@@ -28,6 +28,12 @@ export default function AccordionReact({ data }) {
       setGroupBy("Days");
     }
   }, [data]);
+
+  useEffect(() => {
+    if (groupBy === "Restaurants") {
+      setItems(handleGroupByRestaurants(data.restaurants));
+    }
+  }, [openedValues])
 
   useEffect(() => {
     switch (groupBy) {
@@ -52,14 +58,45 @@ export default function AccordionReact({ data }) {
   function handleGroupByDays(formattedDays) {
     return data != null && !data.error ? formattedDays.map((item) => (
       <Accordion.Item key={item.value} value={item.value}>
-        <Accordion.Control icon={item.emoji}>{item.value}</Accordion.Control>
+        <Accordion.Control icon={item.emoji}>
+          {item.value}
+          <Group mt="xs" mb="xs">
+            {item.description ? item.description.split('/').map((elem) => (
+              <Badge color={getBadgeColor(item.key)}>{elem}</Badge>)) : <></>}
+          </Group>
+        </Accordion.Control>
         <Accordion.Panel>
-          {item.description}
+          {item.tasks ? <><Divider my="xs" /><Text>Tasks</Text></> : <></>}
           {item.tasks ? item.tasks.map((task) => (
             <Accordion.Item key={task.value} value={task.value}>
               <AccordionControl>{task.value}</AccordionControl>
               <Accordion.Panel>
                 {task.description}
+              </Accordion.Panel>
+            </Accordion.Item>
+          )) : <></>}
+          {item.activities ? <><Divider my="xs" /><Text>Activities</Text></> : <></>}
+          {item.activities ? item.activities.map((activity) => (
+            <Accordion.Item key={activity.value} value={activity.value}>
+              <AccordionControl>{activity.value}</AccordionControl>
+              <Accordion.Panel>
+                {/* TODO: Replace description */}
+                {activity.description}
+              </Accordion.Panel>
+            </Accordion.Item>
+          )) : <></>}
+          {item.restaurants ? <><Divider my="xs" /><Text>Restaurants</Text></> : <></>}
+          {item.restaurants ? item.restaurants.map((restaurant) => (
+            <Accordion.Item key={restaurant.value} value={restaurant.value}>
+              <AccordionControl>
+                {restaurant.value}
+                <Group mt="xs" mb="xs">
+                  <Badge color={getBadgeColor(restaurant.address)}>{restaurant.location}</Badge>
+                  <Badge color="pink">{restaurant.food}</Badge>
+                </Group>
+              </AccordionControl>
+              <Accordion.Panel>
+                <RestaurantCard restaurant={restaurant} />
               </Accordion.Panel>
             </Accordion.Item>
           )) : <></>}
@@ -76,7 +113,6 @@ export default function AccordionReact({ data }) {
           <Group mt="xs" mb="xs">
             <Badge color={getBadgeColor(item.address)}>{item.location}</Badge>
             <Badge color="pink">{item.food}</Badge>
-            {/* <Badge size="sm" color="pink">Stuff</Badge> */}
           </Group>
         </AccordionControl>
         <Accordion.Panel>
@@ -84,13 +120,6 @@ export default function AccordionReact({ data }) {
         </Accordion.Panel>
       </Accordion.Item>
     )) : <div>Data could not be retrieved.</div>;
-  }
-
-  function getBadgeColor(address){
-    if (address.includes("Tokyo")) return "blue";
-    else if (address.includes("Kyoto")) return "green";
-    else if (address.includes("Osaka")) return "purple";
-    else return "pink";
   }
 
   function handleGroupByActivities(activities) {
@@ -118,7 +147,7 @@ export default function AccordionReact({ data }) {
   return (
     <>
       <ComboBox groupBy={groupBy} setGroupBy={setGroupBy} />
-      <Accordion multiple value={values} onChange={setValues} variant="separated" chevronPosition="left">
+      <Accordion multiple value={openedValues} onChange={setOpenedValues} variant="separated" chevronPosition="left">
         {items}
       </Accordion>
     </>
