@@ -7,17 +7,6 @@ import {
 import { getKey } from "../helper";
 import { TextInput } from '@mantine/core';
 
-const INITIAL_CAMERA = {
-  center: { lat: 35.3241946, lng: 138.0303997 },
-  zoom: 8
-};
-const mainCities =
-  [
-    { "name": "Tokyo", position: { lat: 35.68152646705769, lng: 139.76838545853252 } },
-    { "name": "Osaka", position: { lat: 34.668609750638005, lng: 135.49808526112534 } },
-    { "name": "Kyoto", position: { lat: 35.011317032007454, lng: 135.7672398785833 } }
-  ]
-
 const PlaceAutocompleteClassic = ({ onPlaceSelect }) => {
   const [placeAutocomplete, setPlaceAutocomplete] = useState(null);
   const inputRef = useRef(null);
@@ -76,7 +65,16 @@ const MapHandler = ({ place, setCurrentMarker }) => {
   return null;
 };
 
-export default function MapReact({ pw }) {
+export default function MapReact({ pw, isPC }) {
+  const INITIAL_CAMERA = {
+    center: { lat: 35.3241946, lng: 138.0303997 },
+    zoom: (isPC ? 8 : 6.3)
+  };
+  const mainCities = [
+    { "name": "Tokyo", position: { lat: 35.68152646705769, lng: 139.76838545853252 } },
+    { "name": "Osaka", position: { lat: 34.668609750638005, lng: 135.49808526112534 } },
+    { "name": "Kyoto", position: { lat: 35.011317032007454, lng: 135.7672398785833 } }
+  ]
   const [mapReady, setMapReady] = useState(false);
   const [camera, setCamera] = useState(INITIAL_CAMERA);
   const handleCameraChange = useCallback((e: MapCameraChangedEvent) => setCamera(e.detail), []);

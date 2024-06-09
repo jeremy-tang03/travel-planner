@@ -9,9 +9,8 @@ import { IconLock, IconLockOpen } from '@tabler/icons-react';
 import { useDisclosure } from '@mantine/hooks';
 import TimelineReact from './TimelineReact';
 
-const defWidth = 290;
-
-export default function DrawerReact({ data }) {
+export default function DrawerReact({ data, isPC }) {
+    const defWidth = isPC ? 310 : 250;
     const [isOpen, setIsOpen] = useState(false);
     const toggleDrawer = () => {
         if (x + (width / 2) < window.innerWidth / 2) {
@@ -91,7 +90,7 @@ export default function DrawerReact({ data }) {
                     size={width}
                     duration={duration}
                 >
-                    <ScrollArea h={window.innerHeight} type="scroll" offsetScrollbars scrollbarSize={8}>
+                    <ScrollArea h={window.innerHeight} type="hover" offsetScrollbars scrollbarSize={8}>
                         <h2 className='head'>Japan 2024</h2>
                         <SegmentedControl
                             fullWidth
