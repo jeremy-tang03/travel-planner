@@ -4,6 +4,7 @@
   "homepage": "https://jeremy-tang03.github.io/travel-planner",
   "private": true,
   "dependencies": {
+    "@googlemaps/markerclusterer": "^2.5.3",
     "@mantine/carousel": "^7.9.2",
     "@mantine/charts": "^7.9.2",
     "@mantine/code-highlight": "^7.9.2",
