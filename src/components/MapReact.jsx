@@ -1,8 +1,8 @@
 import { API_KEY, MAP_ID } from "../config"
 import { useRef, useState, useCallback, useEffect } from "react";
 import {
-  APIProvider, Map, AdvancedMarker, Pin, MapCameraChangedEvent,
-  useMapsLibrary, useMap, ControlPosition, MapControl
+  APIProvider, Map, AdvancedMarker, Pin, MapCameraChangedEvent, useAdvancedMarkerRef,
+  useMapsLibrary, useMap, ControlPosition, MapControl, InfoWindow
 } from "@vis.gl/react-google-maps";
 import { MarkerClusterer } from '@googlemaps/markerclusterer';
 import { getKey } from "../helper";
@@ -71,12 +71,13 @@ const Markers = ({ points }) => {
   const map = useMap();
   const [markers, setMarkers] = useState({});
   const clusterer = useRef(null);
+  const [e, setE] = useState({});
 
   const renderer = {
     render: ({ count, position }) =>
       // eslint-disable-next-line no-undef
       new google.maps.Marker({
-        label: { text: String(count), color: "white", fontSize: "10px" },
+        label: { text: String(count), color: "white", fontSize: "10px", className: "tag"},
         position,
         // adjust zIndex to be above other markers
         // eslint-disable-next-line no-undef
@@ -97,6 +98,17 @@ const Markers = ({ points }) => {
     clusterer.current?.clearMarkers();
     clusterer.current?.addMarkers(Object.values(markers));
   }, [markers]);
+
+  useEffect(() => {
+    console.log(e)
+    if (e.type === "mouseenter") {
+      console.log("enter")
+      e.target.className = "tag in";
+    } else if (e.type === "mouseleave") {
+      console.log("out")
+      e.target.className = "tag";
+    }
+  }, [e]);
 
   const setMarkerRef = (marker, key) => {
     if (marker && markers[key]) return;
@@ -119,9 +131,18 @@ const Markers = ({ points }) => {
         <AdvancedMarker
           position={point}
           key={point.key}
-          ref={marker => setMarkerRef(marker, point.key)}>
-          {/* <span className="tree">🌳</span> */}
-          <Pin background={"red"} />
+          ref={marker => setMarkerRef(marker, point.key)}
+          onClick={(e) => { console.log(e); }}
+        >
+          {/* <Pin background={"red"} /> */}
+          <div
+            className="tag"
+            id={point.key}
+            onMouseEnter={(e) => { if (e.target.className === "tag") setE(e) }}
+            onMouseLeave={(e) => { if (e.target.className === "tag in") setE(e) }}
+          >
+            {e.target && e.target.id === point.key && e.target.classList.contains("in") ? point.value : ""}
+          </div>
         </AdvancedMarker>
       ))}
     </>
