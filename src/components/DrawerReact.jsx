@@ -47,14 +47,14 @@ export default function DrawerReact({ data, isPC }) {
 
     return (
         <>
-            <ActionIcon.Group className="top-left">
+            <ActionIcon.Group className={!isPC ? "top-left-drawer" : "top-left"}>
                 <ActionIcon variant="subtle" color="gray" size="lg" aria-label="Settings">
                     <Burger size="sm" opened={opened} onClick={() => { toggle(); toggleDrawer() }} aria-label="Toggle navigation" />
                 </ActionIcon>
-                {isOpen ? <ActionIcon variant="subtle" color="rgba(50, 50, 50, 1)" size="lg" aria-label="Settings" onClick={() => setDraggable(!draggable)}>
+                {!isPC ? isOpen ? <ActionIcon variant="subtle" color="rgba(50, 50, 50, 1)" size="lg" aria-label="Settings" onClick={() => setDraggable(!draggable)}>
                     {draggable ? <IconLockOpen style={{ width: '60%', height: '60%' }} stroke={1.5} /> :
                         <IconLock style={{ width: '60%', height: '60%' }} stroke={1.5} />}
-                </ActionIcon> : <></>}
+                </ActionIcon> : <></> : <></>}
             </ActionIcon.Group>
             <Rnd
                 className={className}
@@ -77,10 +77,19 @@ export default function DrawerReact({ data, isPC }) {
                 }}
                 onResizeStart={(e, dir, ref) => setDuration(0)}
                 onResizeStop={(e, dir, ref, delta, position) => setDuration(300)}
-                enableResizing={{ top: false, right: true, bottom: false, left: true, topRight: false, bottomRight: false, bottomLeft: false, topLeft: false }}
+                enableResizing={draggable ? { top: false, right: true, bottom: false, left: true, topRight: false, bottomRight: false, bottomLeft: false, topLeft: false } : false}
                 dragAxis='x'
                 bounds="window"
             >
+                {isPC ? isOpen ? <ActionIcon.Group className="top-left-drawer">
+                    <ActionIcon variant="subtle" color="gray" size="lg" aria-label="Settings">
+                        <Burger size="sm" opened={opened} onClick={() => { toggle(); toggleDrawer() }} aria-label="Toggle navigation" />
+                    </ActionIcon>
+                    <ActionIcon variant="subtle" color="rgba(50, 50, 50, 1)" size="lg" aria-label="Settings" onClick={() => setDraggable(!draggable)}>
+                        {draggable ? <IconLockOpen style={{ width: '60%', height: '60%' }} stroke={1.5} /> :
+                            <IconLock style={{ width: '60%', height: '60%' }} stroke={1.5} />}
+                    </ActionIcon>
+                </ActionIcon.Group> : <></> : <></>}
                 <Drawer
                     open={isOpen}
                     onClose={toggleDrawer}

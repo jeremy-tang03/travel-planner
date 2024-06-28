@@ -7,6 +7,7 @@ import {
 import { MarkerClusterer } from '@googlemaps/markerclusterer';
 import { getKey } from "../helper";
 import { TextInput } from '@mantine/core';
+import './MapReact.css';
 
 const PlaceAutocompleteClassic = ({ onPlaceSelect }) => {
   const [placeAutocomplete, setPlaceAutocomplete] = useState(null);
@@ -128,6 +129,11 @@ const Markers = ({ points }) => {
 };
 
 export default function MapReact({ pw, data, isPC }) {
+  const restaurants = data ? data.restaurants.map(restaurant =>
+  ({
+    ...restaurant, name: restaurant.value, lat: Number(restaurant.coords.split(", ")[0]), lng: Number(restaurant.coords.split(", ")[1]),
+    key: JSON.stringify({ name: restaurant.value, lat: Number(restaurant.coords.split(", ")[0]), lng: Number(restaurant.coords.split(", ")[1]) })
+  })) : [];
   const mainCities = [
     {
       name: "Tokyo", lat: 35.68152646705769, lng: 139.76838545853252,
@@ -157,7 +163,7 @@ export default function MapReact({ pw, data, isPC }) {
         <APIProvider apiKey={apiKey} solutionChannel="" >
           <div style={{ height: "100vh", width: "100%" }}>
             <Map mapId={MAP_ID} defaultCenter={{ lat: 35.3241946, lng: 138.0303997 }} defaultZoom={(isPC ? 8 : 6.3)} style={{ zIndex: 10 }} disableDefaultUI={true}>
-              <Markers points={mainCities} />
+              <Markers points={restaurants} />
               {currentMarker}
             </Map>
             <CustomMapControl
