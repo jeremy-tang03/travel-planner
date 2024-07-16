@@ -6,6 +6,7 @@ import DrawerReact from './DrawerReact';
 import Gantt from './Gantt';
 import Welcome from './Welcome';
 import { getSheetsData } from '../helper';
+import { default as Calendar } from './Calendar';
 
 export default function Home() {
   const [hasCode, setHasCode] = useState(false);
@@ -35,7 +36,12 @@ export default function Home() {
               <Tabs.Tab value="map" style={{ 'paddingLeft': '1.5em', 'paddingRight': '2em', 'zIndex': 101 }}>Map</Tabs.Tab>
             </Tabs.List>
             <Tabs.Panel value="calendar">
-              <Gantt data={data} isPC={isPC} />
+              {/* <Gantt data={data} isPC={isPC} /> */}
+              <div
+                style={{ 'height': '90vh', 'margin': '0.7em', 'marginTop': '1em', 'overflow': 'auto' }}
+              >
+                <Calendar />
+              </div>
             </Tabs.Panel>
             <Tabs.Panel value="map">
               <MapReact pw={code} data={data} isPC={isPC} />

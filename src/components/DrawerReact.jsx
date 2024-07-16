@@ -101,13 +101,13 @@ export default function DrawerReact({ data, isPC }) {
                 >
                     <ScrollArea h={window.innerHeight} type="hover" offsetScrollbars scrollbarSize={8}>
                         <h2 className='head'>Japan 2024</h2>
-                        <SegmentedControl
+                        {/* <SegmentedControl
                             fullWidth
                             value={controlValue}
                             onChange={setControlValue}
                             data={['Cards', 'Timeline']}
                             className='segmentControl'
-                        />
+                        /> */}
                         {controlValue === 'Cards' ? <AccordionReact data={data} /> : <TimelineReact data={data} />}
                     </ScrollArea>
 

@@ -76,7 +76,7 @@ const Markers = ({ points }) => {
     render: ({ count, position }) =>
       // eslint-disable-next-line no-undef
       new google.maps.Marker({
-        label: { text: String(count), color: "white", fontSize: "10px" },
+        label: { text: String(count), color: "white", fontSize: "10px", className: "tag" },
         position,
         // adjust zIndex to be above other markers
         // eslint-disable-next-line no-undef
@@ -120,8 +120,10 @@ const Markers = ({ points }) => {
           position={point}
           key={point.key}
           ref={marker => setMarkerRef(marker, point.key)}>
-          {/* <span className="tree">🌳</span> */}
-          <Pin background={"red"} />
+          {/* <Pin background={"red"} /> */}
+          <div className="tag">
+            {point.value}
+          </div>
         </AdvancedMarker>
       ))}
     </>

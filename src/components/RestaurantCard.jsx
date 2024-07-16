@@ -26,7 +26,7 @@ export default function RestaurantCard({ restaurant }) {
       <Group mt="xs">
         <Center>
           <Text size="sm" c="dimmed">Open in map ↗</Text>
-          <IconExternalLink color="grey" />
+          {/* <IconExternalLink color="grey" /> */}
         </Center>
       </Group>
 
