@@ -24,6 +24,7 @@ function reduceData(data, field){
   }, {})
 }
 
+// inputString being the API key or other, pw being the user input code
 // function generateSecret(inputString, pw) {
 //   const inputLength = inputString.length;
 //   const pwLength = pw.length;

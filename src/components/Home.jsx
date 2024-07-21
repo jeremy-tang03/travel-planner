@@ -14,6 +14,7 @@ export default function Home() {
   const [activeTab, setActiveTab] = useState('calendar');
   const [data, setData] = useState(null);
   const [isPC, setIsPC] = useState(true);
+  const [mousePos, setMousePos] = useState({'x': 0, 'y': 0});
 
   useEffect(() => {
     if (window.innerWidth > 768) setIsPC(true);
@@ -23,6 +24,10 @@ export default function Home() {
   useEffect(() => {
     (async () => { if (hasCode) setData(await getSheetsData(code)) })();
   }, [code, hasCode]);
+
+  const handleClick = (e) => {
+    setMousePos({'x': e.clientX, 'y': e.clientY});
+  }
 
   return (
     <>
@@ -38,9 +43,10 @@ export default function Home() {
             <Tabs.Panel value="calendar">
               {/* <Gantt data={data} isPC={isPC} /> */}
               <div
-                style={{ 'height': '90vh', 'margin': '0.7em', 'marginTop': '1em', 'overflow': 'auto' }}
+                style={{ 'height': '94vh', 'padding': '0.2em 0.7em 0.4em 0.7em', 'marginTop': '0.2em', 'overflow': 'auto' }}
+                onClick={handleClick}
               >
-                <Calendar />
+                <Calendar pw={code} data={data} mousePos={mousePos}/>
               </div>
             </Tabs.Panel>
             <Tabs.Panel value="map">
