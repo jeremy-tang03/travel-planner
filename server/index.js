@@ -46,10 +46,10 @@ function handleMessage(message, userId) {
   const json = { type: dataFromClient.type };
   if (dataFromClient.type === typesDef.USER_EVENT) {
     users[userId] = dataFromClient;
-    userActivity.push(`${dataFromClient.username} joined to edit the document`);
-    console.log(`${dataFromClient.username} joined to edit the document`);
+    userActivity.push(`${dataFromClient.username} joined! 👋`);
     json.data = { users, userActivity };
   } else if (dataFromClient.type === typesDef.CONTENT_CHANGE) {
+    console.log("RECEIVED EVENTS", dataFromClient.content)
     editorContent = dataFromClient.content;
     json.data = { editorContent, userActivity };
   }
@@ -60,7 +60,7 @@ function handleDisconnect(userId) {
   console.log(`${userId} disconnected.`);
   const json = { type: typesDef.USER_EVENT };
   const username = users[userId]?.username || userId;
-  userActivity.push(`${username} left the document`);
+  userActivity.push(`${username} left. 🧎‍♂️`);
   json.data = { users, userActivity };
   delete clients[userId];
   delete users[userId];

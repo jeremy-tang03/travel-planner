@@ -4,7 +4,7 @@ import { DateTimePicker } from '@mantine/dates';
 import '@mantine/dates/styles.css';
 import { useState, useEffect } from 'react';
 
-export default function CalendarModal({ editMode, setEditMode, event, events, setEvents }) {
+export default function CalendarModal({ editMode, setEditMode, event, events, setEvents, setUserEdit }) {
   const [opened, { open, close }] = useDisclosure(false);
   const [titleInput, setTitleInput] = useState(event.title);
   const [startInput, setStartInput] = useState(event.start) //useState(event.start.toJSON());
@@ -27,7 +27,7 @@ export default function CalendarModal({ editMode, setEditMode, event, events, se
   }
 
   const handleSave = () => {
-    let updatedEvents = events;
+    let updatedEvents = [...events];
     updatedEvents[events.findIndex(obj => obj.id === event.id)] = {
       ...event,
       title: titleInput,
@@ -36,6 +36,7 @@ export default function CalendarModal({ editMode, setEditMode, event, events, se
     };
     console.log(updatedEvents);
     setEvents(updatedEvents);
+    setUserEdit(Math.random());
     // this is more for add
     // setEvents((prev) => ([
     //   ...prev,

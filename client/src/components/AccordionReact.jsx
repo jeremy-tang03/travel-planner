@@ -25,7 +25,7 @@ export default function AccordionReact({ data }) {
   useEffect(() => {
     if (data != null && !data.error) {
       setFormattedDays(getFormattedDays(data));
-      setGroupBy("Days");
+      setGroupBy("Restaurants");
     }
   }, [data]);
 

@@ -1,7 +1,11 @@
 import { useEffect } from 'react';
 import './App.css';
+import '@mantine/core/styles.css';
+import '@mantine/notifications/styles.css';
 import Home from './components/Home';
 import { MantineProvider } from '@mantine/core';
+import { Notifications } from '@mantine/notifications';
+import { DirtyProvider, useDirtyContext } from './components/DirtyContext';
 
 export default function App() {
 
@@ -14,7 +18,10 @@ export default function App() {
   return (
     <MantineProvider>
       <div className="App">
-        <Home />
+        <DirtyProvider>
+          <Notifications />
+          <Home />
+        </DirtyProvider>
       </div>
     </MantineProvider>
   );

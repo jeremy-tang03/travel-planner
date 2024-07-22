@@ -13,7 +13,7 @@ export function getFormattedDays(data) {
   })
 }
 
-function reduceData(data, field){
+function reduceData(data, field) {
   return data[field].reduce((a, item) => {
     const date = item.date;
     if (!a[date]) {
@@ -82,7 +82,7 @@ export async function getSheetsData(code, sheet = "") {
     return sheetsData;
   } catch (error) {
     // console.error(error);
-    return {error: error}
+    return { error: error }
   }
 }
 
@@ -94,4 +94,32 @@ export function getBadgeColor(value) {
   else if (value.includes("Takeout")) return "green";
   else if (value.includes("Delivery")) return "yellow";
   else return "pink";
+}
+
+function dateWithoutTimezone(date: Date) {
+  const tzoffset = date.getTimezoneOffset() * 60000; //offset in milliseconds
+  const withoutTimezone = new Date(date.valueOf() - tzoffset)
+    .toISOString()
+    .slice(0, -1);
+  return withoutTimezone;
+};
+
+export function exportEvents(events) {
+  return events.map(event => {
+    return {
+      ...event,
+      start: dateWithoutTimezone(event.start),
+      end: dateWithoutTimezone(event.end)
+    }
+  });
+}
+
+export function importEvents(events) {
+  return events.map(event => {
+    return {
+      ...event,
+      start: new Date(event.start),
+      end: new Date(event.end)
+    }
+  });
 }

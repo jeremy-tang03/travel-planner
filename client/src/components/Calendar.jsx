@@ -10,13 +10,15 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 import MenuContext from './MenuContext'
 import CalendarModal from './CalendarModal'
 import Event from './Event';
-import { getKey } from '../helper';
+import { getKey, exportEvents } from '../helper';
+import { useDirtyContext } from './DirtyContext';
 
 // moment.tz.setDefault('Universal')
 const localizer = momentLocalizer(moment)
 const DragAndDropCalendar = withDragAndDrop(Calendar)
 
-export default function DragAndDrop({ pw, data, mousePos }) {
+export default function DragAndDrop({ pw, data, mousePos, sendJsonMessage, editedEvents }) {
+  const { isDirty, setIsDirty } = useDirtyContext();
   const [events, setEvents] = useState(evs);
   const [clicked, setClicked] = useState(false);
   const [view, setView] = useState(Views.MONTH);
@@ -30,9 +32,9 @@ export default function DragAndDrop({ pw, data, mousePos }) {
   const viewRef = useRef(view);
   const setViewRef = useCallback(data => {
     viewRef.current = data;
-    console.log(viewRef.current)
     setView(data);
   }, []);
+  const [userEdit, setUserEdit] = useState(null);
 
   useEffect(() => {
     // console.log(data)
@@ -61,8 +63,20 @@ export default function DragAndDrop({ pw, data, mousePos }) {
   }, []);
 
   useEffect(() => {
-    console.log(events);
-  }, [events]);
+    if (userEdit) {
+      setIsDirty(true);
+      sendJsonMessage({
+        type: 'contentchange',
+        content: JSON.stringify(exportEvents(events)),
+      });
+    }
+  }, [userEdit]);
+
+  useEffect(() => {
+    if (editedEvents) {
+      setEvents(editedEvents);
+    }
+  }, [editedEvents]);
 
   const moveEvent = useCallback(
     ({ event, start, end, isAllDay: droppedOnAllDaySlot = false }) => {
@@ -78,7 +92,8 @@ export default function DragAndDrop({ pw, data, mousePos }) {
         const existing = prev.find((ev) => ev.id === event.id) ?? {}
         const filtered = prev.filter((ev) => ev.id !== event.id)
         return [...filtered, { ...existing, start, end, allDay: event.allDay }]
-      })
+      });
+      setUserEdit(Math.random());
     },
     [setEvents]
   )
@@ -90,7 +105,8 @@ export default function DragAndDrop({ pw, data, mousePos }) {
         const existing = prev.find((ev) => ev.id === event.id) ?? {}
         const filtered = prev.filter((ev) => ev.id !== event.id)
         return [...filtered, { ...existing, start, end }]
-      })
+      });
+      setUserEdit(Math.random());
     },
     [setEvents]
   )
@@ -102,7 +118,8 @@ export default function DragAndDrop({ pw, data, mousePos }) {
         if (title) {
           let start = event.start;
           let end = event.end;
-          setEvents((prev) => [...prev, { start, end, title }])
+          setEvents((prev) => [...prev, { start, end, title }]);
+          setUserEdit(Math.random());
         }
       }
     },
@@ -114,7 +131,6 @@ export default function DragAndDrop({ pw, data, mousePos }) {
       setEvent(event);
       setClicked(true);
       // setSelectedDivsRef(document.getElementsByClassName("rbc-selected"));
-      // console.log(event.start.toJSON()); // string
     }, []
   )
 
@@ -129,7 +145,7 @@ export default function DragAndDrop({ pw, data, mousePos }) {
     setClicked(false);
     setDate(new Date(event.start.toJSON()));
     setViewRef(Views.DAY);
-  }, [event])
+  }, [event, setViewRef])
 
   const handleEdit = () => {
     console.log("EDIT");
@@ -141,9 +157,10 @@ export default function DragAndDrop({ pw, data, mousePos }) {
   const handleDelete = () => {
     console.log("DELETE");
     let removeIndex = events.map(event => event.id).indexOf(event.id);;
-    let newEvents = events;
+    let newEvents = [...events];
     newEvents.splice(removeIndex, 1);
     setEvents(newEvents);
+    setUserEdit(Math.random());
     setClicked(false);
   }
 
@@ -167,24 +184,26 @@ export default function DragAndDrop({ pw, data, mousePos }) {
       {
         redirect: "follow",
         method: "POST",
-        body: JSON.stringify(events),
+        body: JSON.stringify(exportEvents(events)),
         headers: {
           "Content-Type": "text/plain;charset=utf-8",
         },
       }).catch(error => console.error(error));
+    setIsDirty(false);
   }
 
   const onView = useCallback((newView) => setViewRef(newView), [setViewRef]);
 
   return (
     <Fragment>
-      <div className="height600">
+      <div>
         {editMode && (<CalendarModal
           editMode={editMode}
           setEditMode={setEditMode}
           event={event}
           events={events}
           setEvents={setEvents}
+          setUserEdit={setUserEdit}
         />)}
         <MenuContext
           clicked={clicked}
@@ -197,8 +216,8 @@ export default function DragAndDrop({ pw, data, mousePos }) {
           onClick={handleSaveUpload}
           style={{
             position: 'absolute',
-            top: '0',
-            right: '0'
+            top: '1px',
+            right: '5px'
           }}
         >
           Save
@@ -209,7 +228,7 @@ export default function DragAndDrop({ pw, data, mousePos }) {
           defaultView={view}
           view={view}
           onView={onView}
-          components={{ event: Event }}
+          // components={{ event: Event }}
           events={events}
           localizer={localizer}
           onNavigate={setDate}

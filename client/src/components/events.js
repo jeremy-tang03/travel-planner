@@ -20,7 +20,7 @@ export default [
   {
     id: 1,
     title: 'Long Event',
-    start: new Date(dateWithoutTimezone(new Date("2024-08-07T00:00:00.000"))),
+    start: new Date((new Date("2024-08-07T00:00:00.000"))),
     end: new Date(2024, 8, 10),
   },
 
@@ -62,8 +62,8 @@ export default [
   {
     id: 6,
     title: 'Meeting',
-    start: new Date(dateWithoutTimezone(new Date("2024-08-12T10:30:00.000"))),
-    end: new Date(dateWithoutTimezone(new Date("2024-08-12T12:30:00.000"))),
+    start: new Date((new Date("2024-08-12T10:30:00.000"))),
+    end: new Date((new Date("2024-08-12T12:30:00.000"))),
     desc: 'Pre-meeting meeting, to prepare for the meeting',
   },
   {
