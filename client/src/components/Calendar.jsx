@@ -9,6 +9,7 @@ import 'react-big-calendar/lib/addons/dragAndDrop/styles.scss'
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import MenuContext from './MenuContext'
 import CalendarModal from './CalendarModal'
+import DeleteModal from './DeleteModal';
 import Event from './Event';
 import { getKey, exportEvents } from '../helper';
 import { useDirtyContext } from './DirtyContext';
@@ -29,6 +30,7 @@ export default function DragAndDrop({ pw, data, mousePos, sendJsonMessage, edite
   }), []);
   const [date, setDate] = useState(defaultDate);
   const [editMode, setEditMode] = useState(false);
+  const [deleteModal, setDeleteModal] = useState(false);
   const viewRef = useRef(view);
   const setViewRef = useCallback(data => {
     viewRef.current = data;
@@ -112,18 +114,12 @@ export default function DragAndDrop({ pw, data, mousePos, sendJsonMessage, edite
   )
 
   const handleSelectSlot = useCallback(
+    //TODO: give id 
     (event) => {
       if (event.action !== 'click') {
-        const title = window.prompt('New Event name')
-        if (title) {
-          let start = event.start;
-          let end = event.end;
-          setEvents((prev) => [...prev, { start, end, title }]);
-          setUserEdit(Math.random());
-        }
+        handleAdd(event);
       }
-    },
-    [setEvents]
+    }, []
   )
 
   const handleSelectEvent = useCallback(
@@ -147,6 +143,17 @@ export default function DragAndDrop({ pw, data, mousePos, sendJsonMessage, edite
     setViewRef(Views.DAY);
   }, [event, setViewRef])
 
+  const handleAdd = (event) => {
+    console.log("ADD");
+    const title = window.prompt('New Event name')
+    if (title) {
+      let start = event.start;
+      let end = event.end;
+      setEvents((prev) => [...prev, { start, end, title }]);
+      setUserEdit(Math.random());
+    }
+  }
+
   const handleEdit = () => {
     console.log("EDIT");
     setClicked(false);
@@ -164,14 +171,14 @@ export default function DragAndDrop({ pw, data, mousePos, sendJsonMessage, edite
     setClicked(false);
   }
 
+  const toggleDeleteModal = () => {
+    setDeleteModal((prev) => !prev);
+  }
+
   const handleDoubleClick = useCallback(
     (event) => {
-      // console.log(event)
       setEvent(event);
       handleView();
-      // console.log("start",event.start)
-      // console.log("json",event.start.toJSON())
-      // console.log("date",new Date(event.start.toJSON()))
     }, [handleView]
   )
 
@@ -205,12 +212,16 @@ export default function DragAndDrop({ pw, data, mousePos, sendJsonMessage, edite
           setEvents={setEvents}
           setUserEdit={setUserEdit}
         />)}
+        {deleteModal && (<DeleteModal
+          handleDelete={handleDelete}
+          toggleDeleteModal={toggleDeleteModal}
+        />)}
         <MenuContext
           clicked={clicked}
           mousePos={mousePos}
           handleView={handleView}
           handleEdit={handleEdit}
-          handleDelete={handleDelete}
+          handleDelete={toggleDeleteModal}
         />
         <Button
           onClick={handleSaveUpload}
@@ -228,7 +239,7 @@ export default function DragAndDrop({ pw, data, mousePos, sendJsonMessage, edite
           defaultView={view}
           view={view}
           onView={onView}
-          // components={{ event: Event }}
+          components={{ event: Event }}
           events={events}
           localizer={localizer}
           onNavigate={setDate}

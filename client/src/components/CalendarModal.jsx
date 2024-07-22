@@ -23,7 +23,9 @@ export default function CalendarModal({ editMode, setEditMode, event, events, se
 
   const handleClose = () => {
     close();
-    setEditMode(false);
+    setTimeout(() => {
+      setEditMode(false);
+    }, 1000);
   }
 
   const handleSave = () => {

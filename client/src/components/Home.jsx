@@ -85,7 +85,7 @@ export default function Home() {
       notifications.show({
         withBorder: true,
         message,
-        autoClose: 3000
+        autoClose: 4000
       })
     }
   }, [lastJsonMessageUser]);
