@@ -35,7 +35,7 @@ export default function DragAndDrop({ pw, data, mousePos }) {
   }, []);
 
   useEffect(() => {
-    console.log(data)
+    // console.log(data)
 
     const handleClick = (e) => {
       if ((!e.target.classList.contains('rbc-event-content') && !e.target.classList.contains('rbc-event')
@@ -230,3 +230,6 @@ export default function DragAndDrop({ pw, data, mousePos }) {
     </Fragment>
   )
 }
+// DragAndDrop.propTypes = {
+//   localizer: PropTypes.instanceOf(DateLocalizer),
+// }

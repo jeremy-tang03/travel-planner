@@ -2,20 +2,31 @@ import { useDisclosure } from '@mantine/hooks';
 import { Modal, Button, ScrollArea, List, TextInput, Transition } from '@mantine/core';
 import { useForm } from '@mantine/form';
 
-export default function Welcome({ setCode, setHasCode }) {
+export default function Welcome({ setCode, setHasCode, setUsername }) {
   const [opened, { open, close }] = useDisclosure(true);
   const form = useForm({
     mode: 'uncontrolled',
     initialValues: {
+      user: '',
       code: '',
     },
     validate: {
       code: (value) => (value.trim().length < 1 ? 'Code is required' : updateCode(value)),
+      user: (value) => (value.length < 0 ? '' : updateUsername(value))
     },
   });
+
   const updateCode = (value) => {
     setCode(value);
     setHasCode(true);
+  }
+
+  const updateUsername = (value) => {
+    if (value.length > 0) {
+      setUsername(value);
+    } else {
+      setUsername('Anonymous');
+    }
   }
 
   return (
@@ -42,6 +53,7 @@ export default function Welcome({ setCode, setHasCode }) {
       </ScrollArea>
       <form onSubmit={form.onSubmit(close)}>
         <TextInput key={form.key('code')} {...form.getInputProps('code')} label="Code" placeholder="Enter code here" mb="md" data-autofocus />
+        <TextInput key={form.key('user')} {...form.getInputProps('user')} label="Username (Optional)" placeholder="Anonymous" mb="md" />
         <Button type="submit">Continue</Button>
       </form>
     </Modal>
