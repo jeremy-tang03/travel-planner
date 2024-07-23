@@ -1,5 +1,6 @@
 import React, { Fragment, useCallback, useMemo, useState, useEffect, useRef } from 'react'
 import { Modal, Button, Flex, TextInput } from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
 import { default as evs } from './events'
 import { Calendar, Views, momentLocalizer } from 'react-big-calendar'
 import moment from 'moment'
@@ -37,6 +38,7 @@ export default function DragAndDrop({ pw, data, mousePos, sendJsonMessage, edite
     setView(data);
   }, []);
   const [userEdit, setUserEdit] = useState(null);
+  const [loading, { toggle }] = useDisclosure();
   const [saveDisabled, setSaveDisabled] = useState(false);
 
   useEffect(() => {
@@ -81,6 +83,10 @@ export default function DragAndDrop({ pw, data, mousePos, sendJsonMessage, edite
     }
   }, [editedEvents]);
 
+  useEffect(() => {
+    if (saveDisabled) toggle();
+  }, [saveDisabled])
+
   const moveEvent = useCallback(
     ({ event, start, end, isAllDay: droppedOnAllDaySlot = false }) => {
       const { allDay } = event
@@ -115,10 +121,10 @@ export default function DragAndDrop({ pw, data, mousePos, sendJsonMessage, edite
   )
 
   const handleSelectSlot = useCallback(
-    //TODO: give id 
     (event) => {
       if (event.action !== 'click') {
-        handleAdd(event);
+        setEvent(event);
+        setEditMode('add');
       }
     }, []
   )
@@ -144,26 +150,12 @@ export default function DragAndDrop({ pw, data, mousePos, sendJsonMessage, edite
     setViewRef(Views.DAY);
   }, [event, setViewRef])
 
-  const handleAdd = (event) => {
-    console.log("ADD");
-    const title = window.prompt('New Event name')
-    if (title) {
-      let start = event.start;
-      let end = event.end;
-      setEvents((prev) => [...prev, { start, end, title }]);
-      setUserEdit(Math.random());
-    }
-  }
-
   const handleEdit = () => {
-    console.log("EDIT");
     setClicked(false);
-    setEditMode(true);
-    console.log(event);
+    setEditMode('edit');
   }
 
   const handleDelete = () => {
-    console.log("DELETE");
     let removeIndex = events.map(event => event.id).indexOf(event.id);;
     let newEvents = [...events];
     newEvents.splice(removeIndex, 1);
@@ -184,10 +176,11 @@ export default function DragAndDrop({ pw, data, mousePos, sendJsonMessage, edite
   )
 
   const handleSaveUpload = async () => {
+    toggle();
     const key = getKey(pw, `,-6:1,;/+/6":#A@#):>/31&-w7*q;2'87#A%601,-!"%1%#;0wv$9F$4!26-/>q=As;/7$#C#`,
       [0, 1, 8, 13, 14, 15, 16, 20, 21, 23, 29, 30, 31, 36, 37, 39, 40, 44, 48, 49, 53, 57, 59, 60, 61, 64, 67, 73]);
     const url = `https://script.google.com/macros/s/${key}/exec`;
-    await fetch(
+    let res = await fetch(
       url,
       {
         redirect: "follow",
@@ -197,12 +190,15 @@ export default function DragAndDrop({ pw, data, mousePos, sendJsonMessage, edite
           "Content-Type": "text/plain;charset=utf-8",
         },
       }).catch(error => console.error(error));
-    setIsDirty(false);
-    setSaveDisabled(true);
-    // Time out save button for 15 secs to prevent spam
-    setTimeout(() => {
-      setSaveDisabled(false);
-    }, 15000);
+    if (res.ok) {
+      setSaveDisabled(true);
+      //TODO: add notifs
+      setIsDirty(false);
+      // Time out save button for 15 secs to prevent spam
+      setTimeout(() => {
+        setSaveDisabled(false);
+      }, 10000);
+    }
   }
 
   const onView = useCallback((newView) => setViewRef(newView), [setViewRef]);
@@ -231,6 +227,7 @@ export default function DragAndDrop({ pw, data, mousePos, sendJsonMessage, edite
         />
         <Button
           onClick={handleSaveUpload}
+          loading={loading}
           disabled={saveDisabled}
           style={{
             position: 'absolute',
