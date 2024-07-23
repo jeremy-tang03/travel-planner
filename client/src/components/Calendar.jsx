@@ -37,6 +37,7 @@ export default function DragAndDrop({ pw, data, mousePos, sendJsonMessage, edite
     setView(data);
   }, []);
   const [userEdit, setUserEdit] = useState(null);
+  const [saveDisabled, setSaveDisabled] = useState(false);
 
   useEffect(() => {
     // console.log(data)
@@ -197,6 +198,11 @@ export default function DragAndDrop({ pw, data, mousePos, sendJsonMessage, edite
         },
       }).catch(error => console.error(error));
     setIsDirty(false);
+    setSaveDisabled(true);
+    // Time out save button for 15 secs to prevent spam
+    setTimeout(() => {
+      setSaveDisabled(false);
+    }, 15000);
   }
 
   const onView = useCallback((newView) => setViewRef(newView), [setViewRef]);
@@ -225,6 +231,7 @@ export default function DragAndDrop({ pw, data, mousePos, sendJsonMessage, edite
         />
         <Button
           onClick={handleSaveUpload}
+          disabled={saveDisabled}
           style={{
             position: 'absolute',
             top: '1px',
