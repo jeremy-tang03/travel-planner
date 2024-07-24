@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { Tabs, Flex } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import Avatar from 'react-avatar';
@@ -9,6 +9,7 @@ import Welcome from './Welcome';
 import { getSheetsData, importEvents } from '../helper';
 import { default as Calendar } from './Calendar';
 import useWebSocket, { ReadyState } from 'react-use-websocket';
+import { UserContext } from '../UserProvider';
 
 const WS_URL = 'ws://127.0.0.1:3001';
 function isUserEvent(message) {
@@ -51,7 +52,7 @@ export default function Home() {
   const [data, setData] = useState(null);
   const [isPC, setIsPC] = useState(true);
   const [mousePos, setMousePos] = useState({ 'x': 0, 'y': 0 });
-  const [username, setUsername] = useState('');
+  const { user, setUser } = useContext(UserContext);
   const [editedEvents, setEditedEvents] = useState(null);
 
   const { sendJsonMessage, readyState } = useWebSocket(WS_URL, {
@@ -65,13 +66,13 @@ export default function Home() {
   });
 
   useEffect(() => {
-    if (username && readyState === ReadyState.OPEN) {
+    if (user.name && readyState === ReadyState.OPEN) {
       sendJsonMessage({
-        username,
+        username: user.name,
         type: 'userevent'
       });
     }
-  }, [username, sendJsonMessage, readyState]);
+  }, [user.name, sendJsonMessage, readyState]);
 
   const lastJsonMessageUser = useWebSocket(WS_URL, {
     share: true,
@@ -98,7 +99,7 @@ export default function Home() {
   useEffect(() => {
     let events = lastJsonMessage?.data.editorContent || undefined;
     if (events) {
-      events === [] ? setEditedEvents([]) :
+      events.length === 0 ? setEditedEvents([]) :
         setEditedEvents(importEvents(JSON.parse(events)));
     }
   }, [lastJsonMessage]);
@@ -118,7 +119,7 @@ export default function Home() {
 
   return (
     <>
-      <Welcome setHasCode={setHasCode} setCode={setCode} setUsername={setUsername} />
+      <Welcome setHasCode={setHasCode} setCode={setCode} />
       {!hasCode ? <></> :
         <>
           <DrawerReact data={data} isPC={isPC} />

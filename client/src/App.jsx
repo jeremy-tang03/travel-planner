@@ -5,7 +5,8 @@ import '@mantine/notifications/styles.css';
 import Home from './components/Home';
 import { MantineProvider } from '@mantine/core';
 import { Notifications } from '@mantine/notifications';
-import { DirtyProvider, useDirtyContext } from './components/DirtyContext';
+import { DirtyProvider } from './components/DirtyContext';
+import UserProvider from './UserProvider';
 
 export default function App() {
 
@@ -18,10 +19,12 @@ export default function App() {
   return (
     <MantineProvider>
       <div className="App">
-        <DirtyProvider>
-          <Notifications />
-          <Home />
-        </DirtyProvider>
+        <UserProvider>
+          <DirtyProvider>
+            <Notifications />
+            <Home />
+          </DirtyProvider>
+        </UserProvider>
       </div>
     </MantineProvider>
   );

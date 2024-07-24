@@ -1,9 +1,12 @@
+import { useContext } from 'react';
 import { useDisclosure } from '@mantine/hooks';
 import { Modal, Button, ScrollArea, List, TextInput, Transition } from '@mantine/core';
 import { useForm } from '@mantine/form';
+import { UserContext } from '../UserProvider';
 
-export default function Welcome({ setCode, setHasCode, setUsername }) {
+export default function Welcome({ setCode, setHasCode }) {
   const [opened, { open, close }] = useDisclosure(true);
+  const { user, setUser } = useContext(UserContext);
   const form = useForm({
     mode: 'uncontrolled',
     initialValues: {
@@ -23,9 +26,9 @@ export default function Welcome({ setCode, setHasCode, setUsername }) {
 
   const updateUsername = (value) => {
     if (value.length > 0) {
-      setUsername(value);
+      setUser({name: value});
     } else {
-      setUsername('Anonymous');
+      setUser({name: 'Anonymous'});
     }
   }
 
