@@ -4,31 +4,26 @@ import { Modal, Button, ScrollArea, List, TextInput, Transition } from '@mantine
 import { useForm } from '@mantine/form';
 import { UserContext } from '../UserProvider';
 
-export default function Welcome({ setCode, setHasCode }) {
+export default function Welcome() {
   const [opened, { open, close }] = useDisclosure(true);
   const { user, setUser } = useContext(UserContext);
   const form = useForm({
     mode: 'uncontrolled',
     initialValues: {
-      user: '',
+      name: '',
       code: '',
     },
     validate: {
-      code: (value) => (value.trim().length < 1 ? 'Code is required' : updateCode(value)),
-      user: (value) => (value.length < 0 ? '' : updateUsername(value))
+      code: (value) => (value.trim().length < 1 ? 'Code is required' : updateUser()),
     },
   });
 
-  const updateCode = (value) => {
-    setCode(value);
-    setHasCode(true);
-  }
-
-  const updateUsername = (value) => {
-    if (value.length > 0) {
-      setUser({name: value});
+  const updateUser = () => {
+    const { name, code } = form.getValues();
+    if (name.length > 0) {
+      setUser({ ...user, name, code });
     } else {
-      setUser({name: 'Anonymous'});
+      setUser({ ...user, name: 'Anonymous', code });
     }
   }
 
@@ -56,7 +51,7 @@ export default function Welcome({ setCode, setHasCode }) {
       </ScrollArea>
       <form onSubmit={form.onSubmit(close)}>
         <TextInput key={form.key('code')} {...form.getInputProps('code')} label="Code" placeholder="Enter code here" mb="md" data-autofocus />
-        <TextInput key={form.key('user')} {...form.getInputProps('user')} label="Username (Optional)" placeholder="Anonymous" mb="md" />
+        <TextInput key={form.key('name')} {...form.getInputProps('name')} label="Username (Optional)" placeholder="Anonymous" mb="md" />
         <Button type="submit">Continue</Button>
       </form>
     </Modal>

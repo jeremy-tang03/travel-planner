@@ -1,4 +1,4 @@
-import React, { Fragment, useCallback, useMemo, useState, useEffect, useRef } from 'react'
+import React, { Fragment, useCallback, useMemo, useState, useEffect, useRef, useContext } from 'react'
 import { Modal, Button, Flex, TextInput } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { default as evs } from './events'
@@ -14,13 +14,17 @@ import DeleteModal from './DeleteModal';
 import Event from './Event';
 import { getKey, exportEvents } from '../helper';
 import { useDirtyContext } from './DirtyContext';
+import { UserContext } from '../UserProvider';
+import { DataContext } from '../DataProvider';
 
 // moment.tz.setDefault('Universal')
 const localizer = momentLocalizer(moment)
 const DragAndDropCalendar = withDragAndDrop(Calendar)
 
-export default function DragAndDrop({ pw, data, mousePos, sendJsonMessage, editedEvents }) {
+export default function DragAndDrop({ mousePos, sendJsonMessage, editedEvents }) {
   const { isDirty, setIsDirty } = useDirtyContext();
+  const { user } = useContext(UserContext);
+  const { data, setData } = useContext(DataContext);
   const [events, setEvents] = useState(evs);
   const [clicked, setClicked] = useState(false);
   const [view, setView] = useState(Views.MONTH);
@@ -177,7 +181,7 @@ export default function DragAndDrop({ pw, data, mousePos, sendJsonMessage, edite
 
   const handleSaveUpload = async () => {
     toggle();
-    const key = getKey(pw, `,-6:1,;/+/6":#A@#):>/31&-w7*q;2'87#A%601,-!"%1%#;0wv$9F$4!26-/>q=As;/7$#C#`,
+    const key = getKey(user.code, `,-6:1,;/+/6":#A@#):>/31&-w7*q;2'87#A%601,-!"%1%#;0wv$9F$4!26-/>q=As;/7$#C#`,
       [0, 1, 8, 13, 14, 15, 16, 20, 21, 23, 29, 30, 31, 36, 37, 39, 40, 44, 48, 49, 53, 57, 59, 60, 61, 64, 67, 73]);
     const url = `https://script.google.com/macros/s/${key}/exec`;
     let res = await fetch(

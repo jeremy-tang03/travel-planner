@@ -1,7 +1,10 @@
+import { useContext } from 'react';
 import { Timeline, Text } from '@mantine/core';
 import { getFormattedDays } from '../helper';
+import { DataContext } from '../DataProvider';
 
-export default function TimelineReact({ data }) {
+export default function TimelineReact() {
+  const { data } = useContext(DataContext);
   const items = data != null && !data.error ? getFormattedDays(data).map((item) => (
     <Timeline key={item.value} active={0} bulletSize={20} style={{ marginLeft: '0.5em', marginTop: '1.3em' }}>
       <Timeline.Item key={item.value} title={item.value}>

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import Drawer from 'react-modern-drawer'
 import 'react-modern-drawer/dist/index.css'
 import AccordionReact from './AccordionReact';
@@ -8,9 +8,11 @@ import { ActionIcon, Burger, SegmentedControl, ScrollArea } from '@mantine/core'
 import { IconLock, IconLockOpen } from '@tabler/icons-react';
 import { useDisclosure } from '@mantine/hooks';
 import TimelineReact from './TimelineReact';
+import { UserContext } from '../UserProvider';
 
-export default function DrawerReact({ data, isPC }) {
-    const defWidth = isPC ? 310 : 250;
+export default function DrawerReact() {
+    const { user } = useContext(UserContext);
+    const defWidth = user.isPC ? 310 : 250;
     const [isOpen, setIsOpen] = useState(false);
     const toggleDrawer = () => {
         if (x + (width / 2) < window.innerWidth / 2) {
@@ -47,11 +49,11 @@ export default function DrawerReact({ data, isPC }) {
 
     return (
         <>
-            <ActionIcon.Group className={!isPC ? "top-left-drawer" : "top-left"}>
+            <ActionIcon.Group className={!user.isPC ? "top-left-drawer" : "top-left"}>
                 <ActionIcon variant="subtle" color="gray" size="lg" aria-label="Settings">
                     <Burger size="sm" opened={opened} onClick={() => { toggle(); toggleDrawer() }} aria-label="Toggle navigation" />
                 </ActionIcon>
-                {!isPC ? isOpen ? <ActionIcon variant="subtle" color="rgba(50, 50, 50, 1)" size="lg" aria-label="Settings" onClick={() => setDraggable(!draggable)}>
+                {!user.isPC ? isOpen ? <ActionIcon variant="subtle" color="rgba(50, 50, 50, 1)" size="lg" aria-label="Settings" onClick={() => setDraggable(!draggable)}>
                     {draggable ? <IconLockOpen style={{ width: '60%', height: '60%' }} stroke={1.5} /> :
                         <IconLock style={{ width: '60%', height: '60%' }} stroke={1.5} />}
                 </ActionIcon> : <></> : <></>}
@@ -81,7 +83,7 @@ export default function DrawerReact({ data, isPC }) {
                 dragAxis='x'
                 bounds="window"
             >
-                {isPC ? isOpen ? <ActionIcon.Group className="top-left-drawer">
+                {user.isPC ? isOpen ? <ActionIcon.Group className="top-left-drawer">
                     <ActionIcon variant="subtle" color="gray" size="lg" aria-label="Settings">
                         <Burger size="sm" opened={opened} onClick={() => { toggle(); toggleDrawer() }} aria-label="Toggle navigation" />
                     </ActionIcon>
@@ -108,7 +110,7 @@ export default function DrawerReact({ data, isPC }) {
                             data={['Cards', 'Timeline']}
                             className='segmentControl'
                         /> */}
-                        {controlValue === 'Cards' ? <AccordionReact data={data} /> : <TimelineReact data={data} />}
+                        {controlValue === 'Cards' ? <AccordionReact /> : <TimelineReact />}
                     </ScrollArea>
 
                 </Drawer>

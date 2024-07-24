@@ -10,6 +10,7 @@ import { getSheetsData, importEvents } from '../helper';
 import { default as Calendar } from './Calendar';
 import useWebSocket, { ReadyState } from 'react-use-websocket';
 import { UserContext } from '../UserProvider';
+import { DataContext } from '../DataProvider';
 
 const WS_URL = 'ws://127.0.0.1:3001';
 function isUserEvent(message) {
@@ -46,11 +47,8 @@ function Users() {
 }
 
 export default function Home() {
-  const [hasCode, setHasCode] = useState(false);
-  const [code, setCode] = useState('');
   const [activeTab, setActiveTab] = useState('calendar');
-  const [data, setData] = useState(null);
-  const [isPC, setIsPC] = useState(true);
+  const { data, setData } = useContext(DataContext);
   const [mousePos, setMousePos] = useState({ 'x': 0, 'y': 0 });
   const { user, setUser } = useContext(UserContext);
   const [editedEvents, setEditedEvents] = useState(null);
@@ -105,13 +103,13 @@ export default function Home() {
   }, [lastJsonMessage]);
 
   useEffect(() => {
-    if (window.innerWidth > 768) setIsPC(true);
-    else setIsPC(false);
+    if (window.innerWidth > 768) setUser({...user, isPC: true});
+    else setUser({...user, isPC: false});
   }, [])
 
   useEffect(() => {
-    (async () => { if (hasCode) setData(await getSheetsData(code)) })();
-  }, [code, hasCode]);
+    (async () => { if (user.code) setData(await getSheetsData(user.code)) })();
+  }, [user.code]);
 
   const handleClick = (e) => {
     setMousePos({ 'x': e.clientX, 'y': e.clientY });
@@ -119,10 +117,10 @@ export default function Home() {
 
   return (
     <>
-      <Welcome setHasCode={setHasCode} setCode={setCode} />
-      {!hasCode ? <></> :
+      <Welcome />
+      {!user.code ? <></> :
         <>
-          <DrawerReact data={data} isPC={isPC} />
+          <DrawerReact />
           <Tabs variant="pills" value={activeTab} onChange={setActiveTab} >
             <Tabs.List style={{ 'marginLeft': '5.25em' }}>
               <Tabs.Tab value="calendar" style={{ 'paddingLeft': '1.5em', 'paddingRight': '2em', 'zIndex': 101 }}>Calendar</Tabs.Tab>
@@ -135,11 +133,11 @@ export default function Home() {
                 style={{ 'height': '94vh', 'padding': '0.2em 0.7em 0.4em 0.7em', 'marginTop': '0.2em', 'overflow': 'auto' }}
                 onClick={handleClick}
               >
-                <Calendar pw={code} data={data} mousePos={mousePos} sendJsonMessage={sendJsonMessage} editedEvents={editedEvents} />
+                <Calendar mousePos={mousePos} sendJsonMessage={sendJsonMessage} editedEvents={editedEvents} />
               </div>
             </Tabs.Panel>
             <Tabs.Panel value="map">
-              <MapReact pw={code} data={data} isPC={isPC} />
+              <MapReact />
             </Tabs.Panel>
           </Tabs>
         </>}

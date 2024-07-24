@@ -1,13 +1,15 @@
 import { API_KEY, MAP_ID } from "../config"
-import { useRef, useState, useCallback, useEffect } from "react";
+import { useRef, useState, useContext, useEffect } from "react";
 import {
   APIProvider, Map, AdvancedMarker, Pin, MapCameraChangedEvent,
   useMapsLibrary, useMap, ControlPosition, MapControl
 } from "@vis.gl/react-google-maps";
 import { MarkerClusterer } from '@googlemaps/markerclusterer';
-import { getKey } from "../helper";
+import { getKey, generateSecret } from "../helper";
 import { TextInput } from '@mantine/core';
 import './MapReact.css';
+import { UserContext } from "../UserProvider";
+import { DataContext } from '../DataProvider';
 
 const PlaceAutocompleteClassic = ({ onPlaceSelect }) => {
   const [placeAutocomplete, setPlaceAutocomplete] = useState(null);
@@ -130,7 +132,9 @@ const Markers = ({ points }) => {
   );
 };
 
-export default function MapReact({ pw, data, isPC }) {
+export default function MapReact() {
+  const { user } = useContext(UserContext);
+  const { data } = useContext(DataContext);
   const restaurants = data ? data.restaurants.map(restaurant =>
   ({
     ...restaurant, name: restaurant.value, lat: Number(restaurant.coords.split(", ")[0]), lng: Number(restaurant.coords.split(", ")[1]),
@@ -151,11 +155,15 @@ export default function MapReact({ pw, data, isPC }) {
     }
   ]
   const [mapReady, setMapReady] = useState(false);
-  const [apiKey, setApiKey] = useState(getKey(pw));
+  const [mapId, setMapid] = useState('');
+  const [apiKey, setApiKey] = useState('');
   const [selectedPlace, setSelectedPlace] = useState(null);
   const [currentMarker, setCurrentMarker] = useState(null);
 
-  useEffect(() => pw ? () => { setApiKey(getKey(pw)) } : null, [pw]);
+  useEffect(() => user.code ? () => {
+    setMapid(getKey(user.code, `$%!x0#t!s&|$2'$`, [0, 2, 5, 7, 9, 14]));
+    setApiKey(getKey(user.code));
+  } : null, [user.code]);
   useEffect(() => apiKey || apiKey != null || apiKey !== "" ? setMapReady(true) : setMapReady(false), [apiKey]);
   // fetch(`https://maps.google.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=${apiKey}`).then(res => res.json()).then(data => {console.log(data.results[0].geometry.location)});
 
@@ -164,7 +172,7 @@ export default function MapReact({ pw, data, isPC }) {
       {mapReady ?
         <APIProvider apiKey={apiKey} solutionChannel="" >
           <div style={{ height: "100vh", width: "100%" }}>
-            <Map mapId={MAP_ID} defaultCenter={{ lat: 35.3241946, lng: 138.0303997 }} defaultZoom={(isPC ? 8 : 6.3)} style={{ zIndex: 10 }} disableDefaultUI={true}>
+            <Map mapId={mapId} defaultCenter={{ lat: 35.3241946, lng: 138.0303997 }} defaultZoom={(user.isPC ? 8 : 6.3)} style={{ zIndex: 10 }} disableDefaultUI={true}>
               <Markers points={restaurants} />
               {currentMarker}
             </Map>

@@ -1,9 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { Accordion, Group, Badge, ActionIcon, AccordionControlProps, Center, Text, Divider } from '@mantine/core';
 import { IconDots } from '@tabler/icons-react';
 import { getFormattedDays, getBadgeColor } from '../helper';
 import ComboBox from './ComboBoxReact';
 import RestaurantCard from './RestaurantCard';
+import { DataContext } from '../DataProvider';
 
 function AccordionControl(props: AccordionControlProps) {
   return (
@@ -16,7 +17,8 @@ function AccordionControl(props: AccordionControlProps) {
   );
 }
 
-export default function AccordionReact({ data }) {
+export default function AccordionReact() {
+  const { data } = useContext(DataContext);
   const [formattedDays, setFormattedDays] = useState([]);
   const [groupBy, setGroupBy] = useState("");
   const [items, setItems] = useState(<></>);
