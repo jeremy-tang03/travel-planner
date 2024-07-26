@@ -13,6 +13,7 @@ import { UserContext } from '../UserProvider';
 import { DataContext } from '../DataProvider';
 
 const WS_URL = 'ws://127.0.0.1:3001';
+
 function isUserEvent(message) {
   let evt = JSON.parse(message.data);
   return evt.type === 'userevent';
@@ -52,6 +53,7 @@ export default function Home() {
   const [mousePos, setMousePos] = useState({ 'x': 0, 'y': 0 });
   const { user, setUser } = useContext(UserContext);
   const [editedEvents, setEditedEvents] = useState(null);
+  const [saved, setSaved] = useState(0);
 
   const { sendJsonMessage, readyState } = useWebSocket(WS_URL, {
     onOpen: () => {
@@ -81,6 +83,9 @@ export default function Home() {
     const activities = lastJsonMessageUser?.data.userActivity || [];
     if (activities.length > 0) {
       let message = activities[activities.length - 1];
+      if (message.includes('saved')) {
+        setSaved((prev) => ++prev);
+      }
       notifications.show({
         withBorder: true,
         message,
@@ -103,8 +108,8 @@ export default function Home() {
   }, [lastJsonMessage]);
 
   useEffect(() => {
-    if (window.innerWidth > 768) setUser({...user, isPC: true});
-    else setUser({...user, isPC: false});
+    if (window.innerWidth > 768) setUser({ ...user, isPC: true });
+    else setUser({ ...user, isPC: false });
   }, [])
 
   useEffect(() => {
@@ -133,7 +138,7 @@ export default function Home() {
                 style={{ 'height': '94vh', 'padding': '0.2em 0.7em 0.4em 0.7em', 'marginTop': '0.2em', 'overflow': 'auto' }}
                 onClick={handleClick}
               >
-                <Calendar mousePos={mousePos} sendJsonMessage={sendJsonMessage} editedEvents={editedEvents} />
+                <Calendar mousePos={mousePos} sendJsonMessage={sendJsonMessage} editedEvents={editedEvents} saved={saved} />
               </div>
             </Tabs.Panel>
             <Tabs.Panel value="map">

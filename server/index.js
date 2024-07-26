@@ -46,10 +46,13 @@ function handleMessage(message, userId) {
   const json = { type: dataFromClient.type };
   if (dataFromClient.type === typesDef.USER_EVENT) {
     users[userId] = dataFromClient;
-    userActivity.push(`${dataFromClient.username} joined! 👋`);
+    if (dataFromClient.save) {
+      userActivity.push(`${dataFromClient.username} successfully saved the events! 💾`);
+    } else {
+      userActivity.push(`${dataFromClient.username} joined! 👋`);
+    }
     json.data = { users, userActivity };
   } else if (dataFromClient.type === typesDef.CONTENT_CHANGE) {
-    console.log("RECEIVED EVENTS", dataFromClient.content)
     editorContent = dataFromClient.content;
     json.data = { editorContent, userActivity };
   }

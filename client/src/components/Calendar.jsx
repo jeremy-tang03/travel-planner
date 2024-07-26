@@ -12,6 +12,7 @@ import MenuContext from './MenuContext'
 import CalendarModal from './CalendarModal'
 import DeleteModal from './DeleteModal';
 import Event from './Event';
+import useWebSocket from 'react-use-websocket';
 import { getKey, exportEvents } from '../helper';
 import { useDirtyContext } from './DirtyContext';
 import { UserContext } from '../UserProvider';
@@ -21,7 +22,7 @@ import { DataContext } from '../DataProvider';
 const localizer = momentLocalizer(moment)
 const DragAndDropCalendar = withDragAndDrop(Calendar)
 
-export default function DragAndDrop({ mousePos, sendJsonMessage, editedEvents }) {
+export default function DragAndDrop({ mousePos, sendJsonMessage, editedEvents, saved }) {
   const { isDirty, setIsDirty } = useDirtyContext();
   const { user } = useContext(UserContext);
   const { data, setData } = useContext(DataContext);
@@ -44,6 +45,7 @@ export default function DragAndDrop({ mousePos, sendJsonMessage, editedEvents })
   const [userEdit, setUserEdit] = useState(null);
   const [loading, { toggle }] = useDisclosure();
   const [saveDisabled, setSaveDisabled] = useState(false);
+  const [userSaved, setUserSaved] = useState(false);
 
   useEffect(() => {
     // console.log(data)
@@ -88,8 +90,15 @@ export default function DragAndDrop({ mousePos, sendJsonMessage, editedEvents })
   }, [editedEvents]);
 
   useEffect(() => {
-    if (saveDisabled) toggle();
+    if (saveDisabled && userSaved) {
+      toggle();
+      setUserSaved(false);
+    }
   }, [saveDisabled])
+
+  useEffect(() => {
+    if (saved > 0) timeoutSave();
+  }, [saved]);
 
   const moveEvent = useCallback(
     ({ event, start, end, isAllDay: droppedOnAllDaySlot = false }) => {
@@ -179,8 +188,18 @@ export default function DragAndDrop({ mousePos, sendJsonMessage, editedEvents })
     }, [handleView]
   )
 
+  const timeoutSave = () => {
+    setSaveDisabled(true);
+    setIsDirty(false);
+    // Time out save button for 15 secs to prevent spam
+    setTimeout(() => {
+      setSaveDisabled(false);
+    }, 10000);
+  }
+
   const handleSaveUpload = async () => {
     toggle();
+    setUserSaved(true);
     const key = getKey(user.code, `,-6:1,;/+/6":#A@#):>/31&-w7*q;2'87#A%601,-!"%1%#;0wv$9F$4!26-/>q=As;/7$#C#`,
       [0, 1, 8, 13, 14, 15, 16, 20, 21, 23, 29, 30, 31, 36, 37, 39, 40, 44, 48, 49, 53, 57, 59, 60, 61, 64, 67, 73]);
     const url = `https://script.google.com/macros/s/${key}/exec`;
@@ -195,13 +214,12 @@ export default function DragAndDrop({ mousePos, sendJsonMessage, editedEvents })
         },
       }).catch(error => console.error(error));
     if (res.ok) {
-      setSaveDisabled(true);
-      //TODO: add notifs
-      setIsDirty(false);
-      // Time out save button for 15 secs to prevent spam
-      setTimeout(() => {
-        setSaveDisabled(false);
-      }, 10000);
+      sendJsonMessage({
+        type: 'userevent',
+        username: user.name,
+        save: true
+      });
+      timeoutSave();
     }
   }
 
