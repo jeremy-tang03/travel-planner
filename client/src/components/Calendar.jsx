@@ -13,7 +13,7 @@ import CalendarModal from './CalendarModal'
 import DeleteModal from './DeleteModal';
 import Event from './Event';
 import useWebSocket from 'react-use-websocket';
-import { getKey, exportEvents } from '../helper';
+import { getKey, exportEvents, avgHex } from '../helper';
 import { useDirtyContext } from './DirtyContext';
 import { UserContext } from '../UserProvider';
 import { DataContext } from '../DataProvider';
@@ -281,6 +281,14 @@ export default function DragAndDrop({ mousePos, sendJsonMessage, editedEvents, s
           popup
           resizable
           selectable
+          eventPropGetter={(event, start, end, isSelected) => {
+            // const backgroundColor = event.desc ? 'yellow' : 'blue';
+            const darker = '#b0b0b0';
+            let backgroundColor = '#3174ad';
+            // if (isSelected) backgroundColor = '#265985'; // #3174ad
+            if (isSelected) backgroundColor = avgHex(backgroundColor, darker);
+            return { style: { backgroundColor } }
+          }}
         />
       </div>
     </Fragment>
