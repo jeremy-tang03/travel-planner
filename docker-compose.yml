@@ -2,13 +2,19 @@ version: '3.8'
 
 services:
   react-app:
-    build: ./client
+    build:
+      context: ./client
     ports:
       - "3000:3000"
+    volumes:
+      - ./client:/app
     depends_on:
       - websocket-server
 
   websocket-server:
-    build: ./server
+    build:
+      context: ./server
     ports:
       - "3001:3001"
+    volumes:
+      - ./server:/app
