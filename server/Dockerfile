@@ -4,12 +4,12 @@ FROM node:14
 WORKDIR /app
 
 COPY package.json ./
-COPY yarn.lock ./
+COPY package-lock.json ./
 
-RUN yarn install
+RUN npm install
 
 COPY . .
 
 EXPOSE 3001
 
-CMD ["node", "server.js"]
+CMD ["node", "index.js"]
