@@ -56,8 +56,6 @@ export default function Home() {
   const [editedEvents, setEditedEvents] = useState(null);
   const [saved, setSaved] = useState(0);
 
-
-  console.log(WS_URL)
   const { sendJsonMessage, readyState } = useWebSocket(WS_URL, {
     onOpen: () => {
       console.log('WebSocket connection established.');
