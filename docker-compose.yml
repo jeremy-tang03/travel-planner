@@ -8,7 +8,7 @@ services:
     depends_on:
       - websocket-server
     environment:
-      - HOST=ssn-travelplanner.ddns.net
+      - HOST=0.0.0.0
 
   websocket-server:
     build: ./server
