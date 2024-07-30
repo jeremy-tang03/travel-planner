@@ -7,6 +7,8 @@ services:
       - "3000:3000"
     depends_on:
       - websocket-server
+    environment:
+      - HOST=ssn-travelplanner.ddns.net
 
   websocket-server:
     build: ./server
