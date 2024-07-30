@@ -1,42 +1,17 @@
 version: '3.8'
 
 services:
-  nginx:
-    image: lscr.io/linuxserver/nginx:latest
-    container_name: nginx
-    ports:
-      - "80:80"
-    volumes:
-      - /mnt/user/appdata/nginx/nginx.conf:/config/nginx/nginx.conf:ro
-    environment:
-      - PGID=100
-      - PUID=99
-      - TZ=Etc/UTC
-    depends_on:
-      - react-app
-      - websocket-server
-    networks:
-      - app-network
-
   react-app:
-    image: travel-planner-react-app:latest
-    container_name: react-app
+    build: ./client
     ports:
       - "3000:3000"
+    depends_on:
+      - websocket-server
     environment:
       - HOST=0.0.0.0
       - DANGEROUSLY_DISABLE_HOST_CHECK=true
-    networks:
-      - app-network
 
   websocket-server:
-    image: travel-planner-websocket-server:latest
-    container_name: websocket-server
+    build: ./server
     ports:
       - "3001:3001"
-    networks:
-      - app-network
-
-networks:
-  app-network:
-    driver: bridge
