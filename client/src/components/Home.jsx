@@ -24,6 +24,16 @@ function isDocumentEvent(message) {
   return evt.type === 'contentchange';
 }
 
+function isDataRequestEvent(message) {
+  let evt = JSON.parse(message.data);
+  return evt.type === 'requestdata';
+}
+
+function isDataEvent(message) {
+  let evt = JSON.parse(message.data);
+  return evt.type === 'data';
+}
+
 function Users() {
   const { lastJsonMessage } = useWebSocket(WS_URL, {
     share: true,
@@ -107,13 +117,31 @@ export default function Home() {
     }
   }, [lastJsonMessage]);
 
+  // const dataRequest = useWebSocket(WS_URL, {
+  //   share: true,
+  //   filter: isDataRequestEvent
+  // }).lastJsonMessage;
+
+  // useEffect(() => {
+  //   if(dataRequest){
+  //     console.log("RECEIVED DATA REQUEST");
+  //   }
+  // }, [dataRequest]);
+
   useEffect(() => {
     if (window.innerWidth > 768) setUser({ ...user, isPC: true });
     else setUser({ ...user, isPC: false });
   }, [])
 
   useEffect(() => {
-    (async () => { if (user.code) setData(await getSheetsData(user.code)) })();
+    (async () => {
+      if (user.code) {
+        sendJsonMessage({
+          type: 'requestdata'
+        });
+        setData(await getSheetsData(user.code));
+      }
+    })();
   }, [user.code]);
 
   const handleClick = (e) => {
