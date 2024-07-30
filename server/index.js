@@ -28,7 +28,8 @@ let userActivity = [];
 // Event types
 const typesDef = {
   USER_EVENT: 'userevent',
-  CONTENT_CHANGE: 'contentchange'
+  CONTENT_CHANGE: 'contentchange',
+  DATA_REQUEST: 'requestdata'
 }
 
 function broadcastMessage(json) {
@@ -45,7 +46,9 @@ function broadcastMessage(json) {
 function handleMessage(message, userId) {
   const dataFromClient = JSON.parse(message.toString());
   const json = { type: dataFromClient.type };
-  if (dataFromClient.type === typesDef.USER_EVENT) {
+  if (dataFromClient.type === typesDef.DATA_REQUEST) {
+    console.log("DATA REQUEST");
+  } else if (dataFromClient.type === typesDef.USER_EVENT) {
     users[userId] = dataFromClient;
     if (dataFromClient.save) {
       userActivity.push(`${dataFromClient.username} successfully saved the events! 💾`);
@@ -80,6 +83,28 @@ wss.on('connection', connection => {
   // Store the new connection and handle messages
   clients[userId] = connection;
   console.log(`${userId} connected.`);
+
+  // if (wss.clients.size === 1) {
+  //   // Case A: Fetch data from Google Sheets
+  //   console.log("ONLY 1 CLIENT")
+  // } else {
+  //   // Case B: Get data from an existing client
+  //   console.log("MORE THAN 1 CLIENT")
+  //   let found = false;
+  //   wss.clients.forEach(client => {
+  //     if (client !== connection && client.readyState === WebSocket.OPEN && !found) {
+  //       broadcastMessage({ type: 'requestdata' });
+  //       found = true;
+  //     }
+  //   });
+
+  // connection.on('message', (message) => {
+  //   const parsedMessage = JSON.parse(message);
+  //   if (parsedMessage.type === 'responseData') {
+  //     connection.send(JSON.stringify({ type: 'data', data: parsedMessage.data }));
+  //   }
+  // });
+  // }
 
   connection.on('message', (message) => handleMessage(message, userId));
   connection.on('close', () => handleDisconnect(userId));
