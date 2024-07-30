@@ -12,7 +12,8 @@ import useWebSocket, { ReadyState } from 'react-use-websocket';
 import { UserContext } from '../UserProvider';
 import { DataContext } from '../DataProvider';
 
-const WS_URL = 'ws://127.0.0.1:3001';
+const loc = window.location.hostname;
+const WS_URL = `ws://${loc}:3001`;
 
 function isUserEvent(message) {
   let evt = JSON.parse(message.data);
