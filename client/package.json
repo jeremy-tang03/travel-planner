@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "homepage": "https://jeremy-tang03.github.io/travel-planner",
   "private": true,
-  "proxy": "http://localhost:3001",
+  "proxy": "http://ssn-travelplanner.ddns.net:3001",
   "dependencies": {
     "@googlemaps/markerclusterer": "^2.5.3",
     "@mantine/carousel": "^7.9.2",
