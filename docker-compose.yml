@@ -9,6 +9,7 @@ services:
       - websocket-server
     environment:
       - HOST=0.0.0.0
+      - DANGEROUSLY_DISABLE_HOST_CHECK=true
 
   websocket-server:
     build: ./server
