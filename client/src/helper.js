@@ -96,7 +96,7 @@ export function getBadgeColor(value) {
   else return "pink";
 }
 
-function dateWithoutTimezone(date: Date) {
+function dateWithoutTimezone(date) {
   const tzoffset = date.getTimezoneOffset() * 60000; //offset in milliseconds
   const withoutTimezone = new Date(date.valueOf() - tzoffset)
     .toISOString()
