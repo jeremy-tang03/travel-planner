@@ -116,8 +116,12 @@ export function exportEvents(events) {
 
 export function importEvents(events) {
   return events.map(event => {
+    let allDay = event.allDay;
     return {
       ...event,
+      ...(allDay && {
+        allDay: allDay === 'TRUE' ? true : false
+      }),
       start: new Date(event.start),
       end: new Date(event.end)
     }

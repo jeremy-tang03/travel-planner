@@ -149,7 +149,7 @@ export default function Home() {
           setUser({ ...user, requested: false });
           sendJsonMessage({
             type: 'contentchange',
-            content: JSON.stringify(sheetsData.calendar),
+            content: JSON.stringify(importEvents((sheetsData.calendar))),
           });
         }
         setData(sheetsData);
