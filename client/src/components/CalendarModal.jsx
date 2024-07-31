@@ -52,7 +52,6 @@ export default function CalendarModal({ editMode, setEditMode, event, events, se
         ...(descInput !== '' && { desc: descInput })
       });
     }
-    console.log(updatedEvents);
     setEvents(updatedEvents);
     setUserEdit(Math.random());
     handleClose();

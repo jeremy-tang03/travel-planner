@@ -1,4 +1,3 @@
-const { log } = require('console');
 const express = require('express');
 const http = require('http');
 const WebSocket = require('ws');
@@ -11,8 +10,9 @@ const app = express();
 app.use(express.json());
 
 // Define API endpoints
-app.get('/api/hello', (req, res) => {
-  res.send({ message: 'Hello from Express!' });
+app.get('/api/users', (req, res) => {
+  res.set('Access-Control-Allow-Origin', '*');
+  res.send({ message: users });
 });
 
 // Create HTTP server and integrate with Express
@@ -47,7 +47,8 @@ function handleMessage(message, userId) {
   const dataFromClient = JSON.parse(message.toString());
   const json = { type: dataFromClient.type };
   if (dataFromClient.type === typesDef.DATA_REQUEST) {
-    console.log("DATA REQUEST");
+    json.type = 'eventdata'
+    json.data = { editorContent }
   } else if (dataFromClient.type === typesDef.USER_EVENT) {
     users[userId] = dataFromClient;
     if (dataFromClient.save) {
@@ -83,28 +84,6 @@ wss.on('connection', connection => {
   // Store the new connection and handle messages
   clients[userId] = connection;
   console.log(`${userId} connected.`);
-
-  // if (wss.clients.size === 1) {
-  //   // Case A: Fetch data from Google Sheets
-  //   console.log("ONLY 1 CLIENT")
-  // } else {
-  //   // Case B: Get data from an existing client
-  //   console.log("MORE THAN 1 CLIENT")
-  //   let found = false;
-  //   wss.clients.forEach(client => {
-  //     if (client !== connection && client.readyState === WebSocket.OPEN && !found) {
-  //       broadcastMessage({ type: 'requestdata' });
-  //       found = true;
-  //     }
-  //   });
-
-  // connection.on('message', (message) => {
-  //   const parsedMessage = JSON.parse(message);
-  //   if (parsedMessage.type === 'responseData') {
-  //     connection.send(JSON.stringify({ type: 'data', data: parsedMessage.data }));
-  //   }
-  // });
-  // }
 
   connection.on('message', (message) => handleMessage(message, userId));
   connection.on('close', () => handleDisconnect(userId));

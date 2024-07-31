@@ -1,7 +1,6 @@
 import React, { Fragment, useCallback, useMemo, useState, useEffect, useRef, useContext } from 'react'
 import { Modal, Button, Flex, TextInput } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import { default as evs } from './events'
 import { Calendar, Views, momentLocalizer } from 'react-big-calendar'
 import moment from 'moment'
 import 'moment-timezone'
@@ -26,7 +25,7 @@ export default function DragAndDrop({ mousePos, sendJsonMessage, editedEvents, s
   const { isDirty, setIsDirty } = useDirtyContext();
   const { user } = useContext(UserContext);
   const { data, setData } = useContext(DataContext);
-  const [events, setEvents] = useState(evs);
+  const [events, setEvents] = useState([]);
   const [clicked, setClicked] = useState(false);
   const [view, setView] = useState(Views.MONTH);
   const [showMore, setShowMore] = useState(false);
@@ -48,8 +47,6 @@ export default function DragAndDrop({ mousePos, sendJsonMessage, editedEvents, s
   const [userSaved, setUserSaved] = useState(false);
 
   useEffect(() => {
-    // console.log(data)
-
     const handleClick = (e) => {
       if ((!e.target.classList.contains('rbc-event-content') && !e.target.classList.contains('rbc-event')
         && !e.target.classList.contains('rbc-event-label')) || viewRef.current === Views.AGENDA) {

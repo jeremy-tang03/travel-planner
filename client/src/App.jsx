@@ -8,12 +8,6 @@ import Providers from './Providers';
 
 export default function App() {
 
-  // useEffect(() => {
-  //   fetch('/api/hello')
-  //     .then(response => response)
-  //     .then(data => console.log("API/HELLO", data));
-  // }, []);
-
   return (
     <Providers>
       <div className="App">

@@ -25,14 +25,9 @@ function isDocumentEvent(message) {
   return evt.type === 'contentchange';
 }
 
-function isDataRequestEvent(message) {
-  let evt = JSON.parse(message.data);
-  return evt.type === 'requestdata';
-}
-
 function isDataEvent(message) {
   let evt = JSON.parse(message.data);
-  return evt.type === 'data';
+  return evt.type === 'eventdata';
 }
 
 function Users() {
@@ -118,16 +113,17 @@ export default function Home() {
     }
   }, [lastJsonMessage]);
 
-  // const dataRequest = useWebSocket(WS_URL, {
-  //   share: true,
-  //   filter: isDataRequestEvent
-  // }).lastJsonMessage;
+  const receivedData = useWebSocket(WS_URL, {
+    share: true,
+    filter: isDataEvent
+  }).lastJsonMessage;
 
-  // useEffect(() => {
-  //   if(dataRequest){
-  //     console.log("RECEIVED DATA REQUEST");
-  //   }
-  // }, [dataRequest]);
+  useEffect(() => {
+    if (receivedData && user.requested) {
+      setEditedEvents(importEvents(JSON.parse(receivedData.data.editorContent)));
+      setUser({ ...user, requested: false });
+    }
+  }, [receivedData]);
 
   useEffect(() => {
     if (window.innerWidth > 768) setUser({ ...user, isPC: true });
@@ -137,10 +133,26 @@ export default function Home() {
   useEffect(() => {
     (async () => {
       if (user.code) {
-        sendJsonMessage({
-          type: 'requestdata'
-        });
-        setData(await getSheetsData(user.code));
+        let users;
+        const sheetsData = await getSheetsData(user.code);
+        await fetch(`http://${loc}:3001/api/users`)
+          .then(response => response.json())
+          .then(data => users = data.message);
+        if (Object.keys(users).length > 1) {
+          console.log("requesting data from other users");
+          setUser({ ...user, requested: true });
+          sendJsonMessage({
+            type: 'requestdata'
+          });
+        } else {
+          console.log("getting data from sheets");
+          setUser({ ...user, requested: false });
+          sendJsonMessage({
+            type: 'contentchange',
+            content: JSON.stringify(sheetsData.calendar),
+          });
+        }
+        setData(sheetsData);
       }
     })();
   }, [user.code]);
