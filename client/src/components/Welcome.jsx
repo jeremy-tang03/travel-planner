@@ -40,13 +40,19 @@ export default function Welcome() {
       closeOnEscape={false}
       closeOnClickOutside={false}
     >
-      <ScrollArea h={150} type="always" offsetScrollbars scrollbarSize={8} scrollbars="y">
+      <ScrollArea h={135} type="always" offsetScrollbars scrollbarSize={8} scrollbars="y">
         <List>
-          <List.Item>Clone or download repository from GitHub</List.Item>
-          <List.Item>Install dependencies with yarn</List.Item>
-          <List.Item>To start development server run npm start command</List.Item>
-          <List.Item>Run tests to make sure your changes do not break the build</List.Item>
-          <List.Item>Submit a pull request once you are done</List.Item>
+          Calendar:
+          <List.Item>Switch views using tabs at top right</List.Item>
+          <List.Item>Go back and forth between dates at top left</List.Item>
+          <List.Item>Add: Select time slot or double click</List.Item>
+          <List.Item>Edit: Click on event, Edit</List.Item>
+          <List.Item>Delete: Click on event, Delete</List.Item>
+          <List.Item>Save: top right button, only save when you are ready because it will override previous save</List.Item>
+          Known issues:
+          <List.Item>Wrong code will crash</List.Item>
+          <List.Item>On monthly view, pressing more and dragging event from the popup will crash</List.Item>
+          <List.Item>Other features are there but not finished, may crash</List.Item>
         </List>
       </ScrollArea>
       <form onSubmit={form.onSubmit(close)}>

@@ -58,7 +58,7 @@ export default function CalendarModal({ editMode, setEditMode, event, events, se
   }
   //TODO: Add colors
   return (
-    <Modal opened={opened} onClose={handleClose} title={editMode === 'edit' ? "Edit Event" : "Add Event"} centered>
+    <Modal opened={opened} onClose={handleClose} title={editMode === 'edit' ? "Edit Event" : "Add Event"}>
       <TextInput
         label="Title"
         withAsterisk
