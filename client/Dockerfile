@@ -16,7 +16,7 @@ RUN npm run build
 FROM nginx:alpine
 
 # Remove default index.html if present
-RUN rm /usr/share/nginx/html/*
+# RUN rm /usr/share/nginx/html/*
 
 # Copy custom Nginx configuration if needed
 COPY nginx.conf /etc/nginx/nginx.conf

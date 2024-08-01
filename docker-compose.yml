@@ -3,6 +3,8 @@ version: "3.8"
 services:
   react-app:
     build: ./client
+    ports:
+      - "3000:80"
     depends_on:
       - websocket-server
     volumes:
@@ -14,14 +16,6 @@ services:
       - "3001:3001"
     volumes:
       - travel-planner-server-data:/app
-
-  nginx:
-    build: ./nginx
-    ports:
-      - "8080:80"
-    depends_on:
-      - react-app
-      - websocket-server
 
 volumes:
   travel-planner-client-data:
