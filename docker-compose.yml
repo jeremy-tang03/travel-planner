@@ -20,8 +20,8 @@ services:
     volumes:
       - travel-planner-server-data:/app
 
-  volumes:
-    travel-planner-client-data:
-      external: true
-    travel-planner-server-data:
-      external: true
+volumes:
+  travel-planner-client-data:
+    external: true
+  travel-planner-server-data:
+    external: true
