@@ -1,7 +1,7 @@
 {
   "name": "planner",
   "version": "0.1.0",
-  "homepage": "https://jeremy-tang03.github.io/travel-planner",
+  "homepage": "http://192.168.68.108:3000/",
   "private": true,
   "options": {
     "allowedHosts": ["localhost", "http://ssn-travelplanner.ddns.net"]
