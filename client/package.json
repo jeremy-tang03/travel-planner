@@ -4,7 +4,7 @@
   "homepage": "https://jeremy-tang03.github.io/travel-planner",
   "private": true,
   "options": {
-    "allowedHosts": ["localhost", "http://ssn-travelplanner.ddns.net"],
+    "allowedHosts": ["localhost", "http://ssn-travelplanner.ddns.net"]
   },
   "dependencies": {
     "@googlemaps/markerclusterer": "^2.5.3",
