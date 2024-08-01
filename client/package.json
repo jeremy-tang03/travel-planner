@@ -5,7 +5,6 @@
   "private": true,
   "options": {
     "allowedHosts": ["localhost", "http://ssn-travelplanner.ddns.net"],
-    "proxy": "http://ssn-travelplanner.ddns.net:3001"
   },
   "dependencies": {
     "@googlemaps/markerclusterer": "^2.5.3",
