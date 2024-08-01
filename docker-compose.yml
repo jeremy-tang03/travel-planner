@@ -7,9 +7,9 @@ services:
       - "3000:3000"
     depends_on:
       - websocket-server
-    # environment:
-      # - HOST=http://ssn-travelplanner.ddns.net
-      # - DANGEROUSLY_DISABLE_HOST_CHECK=true
+    environment:
+      - HOST=0.0.0.0
+      - DANGEROUSLY_DISABLE_HOST_CHECK=true
     volumes:
       - travel-planner-client-data:/app
 
