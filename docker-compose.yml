@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 services:
   react-app:
@@ -8,10 +8,20 @@ services:
     depends_on:
       - websocket-server
     environment:
-      - HOST=0.0.0.0
-      - DANGEROUSLY_DISABLE_HOST_CHECK=true
+      - HOST=http://ssn-travelplanner.ddns.net
+      # - DANGEROUSLY_DISABLE_HOST_CHECK=true
+    volumes:
+      - travel-planner-client-data:/app
 
   websocket-server:
     build: ./server
     ports:
       - "3001:3001"
+    volumes:
+      - travel-planner-server-data:/app
+
+  volumes:
+    travel-planner-client-data:
+      external: true
+    travel-planner-server-data:
+      external: true
