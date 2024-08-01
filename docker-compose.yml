@@ -18,7 +18,7 @@ services:
   nginx:
     build: ./nginx
     ports:
-      - "3000:80"
+      - "8080:80"
     depends_on:
       - react-app
       - websocket-server
