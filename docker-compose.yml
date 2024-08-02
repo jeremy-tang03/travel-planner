@@ -4,11 +4,15 @@ services:
   react-app:
     build: ./client
     ports:
-      - "3000:80"
-    depends_on:
-      - websocket-server
+      - "80:80"  # Expose port 80 for HTTP
+      - "443:443" # Expose port 443 for HTTPS
     volumes:
       - travel-planner-client-data:/app
+      - certbot-conf:/etc/letsencrypt
+      - certbot-www:/var/www/certbot
+    depends_on:
+      - websocket-server
+      - certbot
 
   websocket-server:
     build: ./server
@@ -16,6 +20,14 @@ services:
       - "3001:3001"
     volumes:
       - travel-planner-server-data:/app
+
+  certbot:
+    image: certbot/certbot
+    container_name: certbot
+    volumes:
+      - certbot-conf:/etc/letsencrypt
+      - certbot-www:/var/www/certbot
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done'"
 
 volumes:
   travel-planner-client-data:
