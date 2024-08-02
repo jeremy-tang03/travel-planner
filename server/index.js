@@ -1,9 +1,14 @@
 const express = require('express');
-const http = require('http');
+const https = require('https');
 const WebSocket = require('ws');
 const uuidv4 = require('uuid').v4;
 const PORT = process.env.PORT || 3001;
 // const WSPORT = process.env.WSPORT || 5000;
+
+// SSL certificate
+const privateKey = fs.readFileSync('/etc/letsencrypt/live/ssn-travelplanner.ddns.net/privkey.pem', 'utf8');
+const certificate = fs.readFileSync('/etc/letsencrypt/live/ssn-travelplanner.ddns.net/fullchain.pem', 'utf8');
+const credentials = { key: privateKey, cert: certificate };
 
 const app = express();
 // Middleware to parse JSON
@@ -15,10 +20,10 @@ app.get('/api/users', (req, res) => {
   res.send({ message: users });
 });
 
-// Create HTTP server and integrate with Express
-const server = http.createServer(app);
-// Set up WebSocket server on the same HTTP server
-const wss = new WebSocket.Server({ server });
+// Create an HTTPS server
+const httpsServer = https.createServer(credentials, app);
+// Create a WebSocket server
+const wss = new WebSocket.Server({ server: httpsServer });
 
 const clients = {};
 const users = {};
@@ -90,7 +95,7 @@ wss.on('connection', connection => {
 });
 
 // Start the server on port 3001
-server.listen(PORT, () => {
+httpsServer.listen(PORT, () => {
   console.log(`Server is running on port: ${PORT}`);
   console.log(`WebSocket server is running on port: ${PORT}`);
 });
