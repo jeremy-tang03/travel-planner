@@ -4,7 +4,7 @@ services:
   react-app:
     build: ./client
     ports:
-      - "80:80"  # Expose port 80 for HTTP
+      - "80:80" # Expose port 80 for HTTP
       - "443:443" # Expose port 443 for HTTPS
     volumes:
       - travel-planner-client-data:/app
@@ -33,4 +33,8 @@ volumes:
   travel-planner-client-data:
     external: true
   travel-planner-server-data:
+    external: true
+  certbot-conf:
+    external: true
+  certbot-www:
     external: true
