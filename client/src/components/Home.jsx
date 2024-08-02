@@ -13,7 +13,7 @@ import { UserContext } from '../UserProvider';
 import { DataContext } from '../DataProvider';
 
 const loc = window.location.hostname;
-const WS_URL = `ws://${loc}:3001`;
+const WS_URL = `wss://${loc}:3001`;
 
 function isUserEvent(message) {
   let evt = JSON.parse(message.data);
