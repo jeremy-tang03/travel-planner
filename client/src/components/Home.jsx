@@ -135,7 +135,7 @@ export default function Home() {
       if (user.code) {
         let users;
         const sheetsData = await getSheetsData(user.code);
-        await fetch(`https://${loc}:3001/api/users`)
+        await fetch(`http://${loc}:3001/api/users`)
           .then(response => response.json())
           .then(data => users = data.message);
         if (Object.keys(users).length > 1) {
