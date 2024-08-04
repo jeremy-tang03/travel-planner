@@ -6,7 +6,19 @@ import { useState, useEffect } from 'react';
 
 const groceries = ['🍎 Apples', '🍌 Bananas', '🥦 Broccoli', '🥕 Carrots', '🍫 Chocolate'];
 
-function DropDownComboBoxWithColorPicker({tagInput, setTagInput}) {
+function getRandomHexColor() {
+  // Generate a random number between 0 and 255 for each color channel (red, green, blue)
+  const r = Math.floor(Math.random() * 256);
+  const g = Math.floor(Math.random() * 256);
+  const b = Math.floor(Math.random() * 256);
+
+  // Convert each color channel to a 2-digit hexadecimal string and concatenate them
+  const hex = '#' + r.toString(16).padStart(2, '0') + g.toString(16).padStart(2, '0') + b.toString(16).padStart(2, '0');
+
+  return hex;
+}
+
+function DropDownComboBoxWithColorPicker({ tagInput, setTagInput, colorInput, setColorInput }) {
 
   return (
     <Flex
@@ -20,19 +32,27 @@ function DropDownComboBoxWithColorPicker({tagInput, setTagInput}) {
 
       <TagsInput
         label="Tag"
-        placeholder="Pick a tag or create one"
+        description="(Optional)"
+        placeholder={tagInput.length === 0 ? "Pick a tag or create one (press Enter)" : ""}
         data={groceries}
-        value={tagInput} onChange={setTagInput}
+        value={tagInput}
+        onChange={setTagInput}
         maxTags={1}
         maxDropdownHeight={200}
-        miw={'70%'}
-        maw={'70%'}
+        miw={tagInput.length === 0 ? '100%' : '65%'}
+        maw={tagInput.length === 0 ? '100%' : '65%'}
+        clearable
       />
       <ColorInput
         label="Tag Color"
-        defaultValue="#C5D899"
-        miw={'25%'}
-        maw={'25%'}
+        description="Event Color"
+        value={colorInput}
+        onChange={setColorInput}
+        miw={tagInput.length === 0 ? '0%' : '30%'}
+        maw={tagInput.length === 0 ? '0%' : '30%'}
+        clearable
+        style={{display: tagInput.length === 0 ? 'none' : 'block'}}
+        withAsterisk
       />
 
     </Flex>
@@ -41,21 +61,18 @@ function DropDownComboBoxWithColorPicker({tagInput, setTagInput}) {
 
 export default function CalendarModal({ editMode, setEditMode, event, events, setEvents, setUserEdit }) {
   const [opened, { open, close }] = useDisclosure(false);
-  const [titleInput, setTitleInput] = useState('');
+  const [titleInput, setTitleInput] = useState(event.title ? event.title : '');
   const [startInput, setStartInput] = useState(event.start);
   const [endInput, setEndInput] = useState(event.end);
-  const [descInput, setDescInput] = useState('');
+  const [descInput, setDescInput] = useState(event.desc ? event.desc : '');
   const [startDate, setStartDate] = useState(event.start);
   const [endDate, setEndDate] = useState(event.end);
-  const [tagInput, setTagInput] = useState([]);
+  const [tagInput, setTagInput] = useState(event.tag ? event.tag : []);
+  const [colorInput, setColorInput] = useState(event.tag && event.color ? event.color : getRandomHexColor());
 
   useEffect(() => {
-    if (editMode === 'edit') {
-      setTitleInput(event.title);
-      setDescInput(event.desc ? event.desc : '');
-    }
-    setStartInput(event.start);
-    setEndInput(event.end);
+    // setStartInput(event.start);
+    // setEndInput(event.end);
     open();
   }, [editMode, open]);
 
@@ -76,6 +93,8 @@ export default function CalendarModal({ editMode, setEditMode, event, events, se
         title: titleInput,
         start: startInput,
         end: endInput,
+        ...(tagInput.length !== 0 && { tag: tagInput }),
+        ...(tagInput.length !== 0 && { color: colorInput }),
         ...(descInput !== '' && { desc: descInput })
       };
     } else if (editMode === 'add') {
@@ -85,6 +104,8 @@ export default function CalendarModal({ editMode, setEditMode, event, events, se
         title: titleInput,
         start: startInput,
         end: endInput,
+        ...(tagInput.length !== 0 && { tag: tagInput }),
+        ...(tagInput.length !== 0 && { color: colorInput }),
         ...(descInput !== '' && { desc: descInput })
       });
     }
@@ -92,7 +113,7 @@ export default function CalendarModal({ editMode, setEditMode, event, events, se
     setUserEdit(Math.random());
     handleClose();
   }
-  //TODO: Add colors
+
   return (
     <Modal opened={opened} onClose={handleClose} title={editMode === 'edit' ? "Edit Event" : "Add Event"}>
       <TextInput
@@ -138,7 +159,7 @@ export default function CalendarModal({ editMode, setEditMode, event, events, se
           clearable
         />
       </Flex>
-      <DropDownComboBoxWithColorPicker tagInput={tagInput} setTagInput={setTagInput} />
+      <DropDownComboBoxWithColorPicker tagInput={tagInput} setTagInput={setTagInput} colorInput={colorInput} setColorInput={setColorInput} />
       <Textarea
         label="Description"
         description="(Optional)"

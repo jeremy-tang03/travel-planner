@@ -194,6 +194,7 @@ export default function DragAndDrop({ mousePos, sendJsonMessage, editedEvents, s
     }, 10000);
   }
 
+  // TODO: handle event.tag and event.color
   const handleSaveUpload = async () => {
     toggle();
     setUserSaved(true);
@@ -279,10 +280,9 @@ export default function DragAndDrop({ mousePos, sendJsonMessage, editedEvents, s
           resizable
           selectable
           eventPropGetter={(event, start, end, isSelected) => {
-            // const backgroundColor = event.desc ? 'yellow' : 'blue';
+            let backgroundColor = event.color ? event.color : '#3174ad';
             const darker = '#b0b0b0';
-            let backgroundColor = '#3174ad';
-            // if (isSelected) backgroundColor = '#265985'; // #3174ad
+            // if (isSelected) backgroundColor = '#265985';
             if (isSelected) backgroundColor = avgHex(backgroundColor, darker);
             return { style: { backgroundColor } }
           }}
