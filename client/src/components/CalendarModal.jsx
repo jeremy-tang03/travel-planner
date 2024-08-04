@@ -1,8 +1,43 @@
 import { useDisclosure } from '@mantine/hooks';
-import { Modal, Button, Flex, TextInput, Textarea } from '@mantine/core';
+import { Modal, Button, Flex, TextInput, Textarea, Combobox, useCombobox, ColorInput, TagsInput } from '@mantine/core';
 import { DateTimePicker } from '@mantine/dates';
 import '@mantine/dates/styles.css';
 import { useState, useEffect } from 'react';
+
+const groceries = ['🍎 Apples', '🍌 Bananas', '🥦 Broccoli', '🥕 Carrots', '🍫 Chocolate'];
+
+function DropDownComboBoxWithColorPicker({tagInput, setTagInput}) {
+
+  return (
+    <Flex
+      gap="md"
+      justify="flex-start"
+      align="center"
+      direction="row"
+      wrap="wrap"
+      mt={'xs'}
+    >
+
+      <TagsInput
+        label="Tag"
+        placeholder="Pick a tag or create one"
+        data={groceries}
+        value={tagInput} onChange={setTagInput}
+        maxTags={1}
+        maxDropdownHeight={200}
+        miw={'70%'}
+        maw={'70%'}
+      />
+      <ColorInput
+        label="Tag Color"
+        defaultValue="#C5D899"
+        miw={'25%'}
+        maw={'25%'}
+      />
+
+    </Flex>
+  );
+}
 
 export default function CalendarModal({ editMode, setEditMode, event, events, setEvents, setUserEdit }) {
   const [opened, { open, close }] = useDisclosure(false);
@@ -12,6 +47,7 @@ export default function CalendarModal({ editMode, setEditMode, event, events, se
   const [descInput, setDescInput] = useState('');
   const [startDate, setStartDate] = useState(event.start);
   const [endDate, setEndDate] = useState(event.end);
+  const [tagInput, setTagInput] = useState([]);
 
   useEffect(() => {
     if (editMode === 'edit') {
@@ -73,6 +109,7 @@ export default function CalendarModal({ editMode, setEditMode, event, events, se
         align="center"
         direction="row"
         wrap="wrap"
+        mt={'xs'}
       >
         <DateTimePicker
           label="Start"
@@ -83,8 +120,8 @@ export default function CalendarModal({ editMode, setEditMode, event, events, se
           onChange={setStartInput}
           date={startDate}
           onDateChange={setStartDate}
-          mt={'xs'}
-          miw={'48%'}
+          miw={'47.5%'}
+          maw={'47.5%'}
           clearable
         />
         <DateTimePicker
@@ -96,20 +133,21 @@ export default function CalendarModal({ editMode, setEditMode, event, events, se
           onChange={setEndInput}
           date={endDate}
           onDateChange={setEndDate}
-          mt={'xs'}
-          miw={'48%'}
+          miw={'47.5%'}
+          maw={'47.5%'}
           clearable
         />
-        <Textarea
-          label="Description"
-          description="(Optional)"
-          placeholder="Add a description"
-          value={descInput}
-          onChange={(event) => setDescInput(event.currentTarget.value)}
-          style={{ width: '100%' }}
-        />
       </Flex>
-
+      <DropDownComboBoxWithColorPicker tagInput={tagInput} setTagInput={setTagInput} />
+      <Textarea
+        label="Description"
+        description="(Optional)"
+        placeholder="Add a description"
+        value={descInput}
+        onChange={(event) => setDescInput(event.currentTarget.value)}
+        style={{ width: '100%' }}
+        mt={'xs'}
+      />
       <Flex
         mih={50}
         gap="md"
