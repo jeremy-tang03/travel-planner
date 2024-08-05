@@ -86,6 +86,8 @@ export default function CalendarModal({ editMode, setEditMode, event, events, se
   const handleSave = () => {
     if (!editMode) return;
 
+    console.log(tagInput);
+
     let updatedEvents = [...events];
     if (editMode === 'edit') {
       updatedEvents[events.findIndex(obj => obj.id === event.id)] = {
@@ -109,6 +111,7 @@ export default function CalendarModal({ editMode, setEditMode, event, events, se
         ...(descInput !== '' && { desc: descInput })
       });
     }
+    console.log(updatedEvents);
     setEvents(updatedEvents);
     setUserEdit(Math.random());
     handleClose();
