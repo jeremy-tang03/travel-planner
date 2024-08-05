@@ -91,7 +91,7 @@ export default function CalendarModal({ editMode, setEditMode, event, events, se
     let updatedEvents = [...events];
     if (editMode === 'edit') {
       updatedEvents[events.findIndex(obj => obj.id === event.id)] = {
-        ...event,
+        id: event.id,
         title: titleInput,
         start: startInput,
         end: endInput,
