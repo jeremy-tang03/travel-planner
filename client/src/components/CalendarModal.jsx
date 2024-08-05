@@ -67,7 +67,7 @@ export default function CalendarModal({ editMode, setEditMode, event, events, se
   const [descInput, setDescInput] = useState(event.desc ? event.desc : '');
   const [startDate, setStartDate] = useState(event.start);
   const [endDate, setEndDate] = useState(event.end);
-  const [tagInput, setTagInput] = useState(event.tag ? [event.tag] : []);
+  const [tagInput, setTagInput] = useState(event.tag ? (Array.isArray(event.tag) ? event.tag : [event.tag]) : []);
   const [colorInput, setColorInput] = useState(event.tag && event.color ? event.color : getRandomHexColor());
 
   useEffect(() => {
