@@ -182,19 +182,20 @@ export default function CalendarModal({ editMode, setEditMode, event, events, se
           style={{ width: '100%' }}
           mt={'xs'}
         />
+
+        <Flex
+          mih={50}
+          gap="md"
+          justify="center"
+          align="center"
+          direction="row"
+          wrap="wrap"
+          style={{ 'margin': '1.75em 0 0 0' }}
+        >
+          <Button type='submit' miw={'6em'}>{editMode === 'edit' ? 'Save' : 'Add'}</Button>
+          <Button onClick={handleClose} miw={'6em'}>Cancel</Button>
+        </Flex>
       </form>
-      <Flex
-        mih={50}
-        gap="md"
-        justify="center"
-        align="center"
-        direction="row"
-        wrap="wrap"
-        style={{ 'margin': '1.75em 0 0 0' }}
-      >
-        <Button type='submit' miw={'6em'}>{editMode === 'edit' ? 'Save' : 'Add'}</Button>
-        <Button onClick={handleClose} miw={'6em'}>Cancel</Button>
-      </Flex>
     </Modal>
   );
 }
