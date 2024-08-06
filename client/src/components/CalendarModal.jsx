@@ -18,7 +18,7 @@ function getRandomHexColor() {
   return hex;
 }
 
-function DropDownComboBoxWithColorPicker({ tagInput, setTagInput, colorInput, setColorInput }) {
+function DropDownComboBoxWithColorPicker({ tagInput, setTagInput, colorInput, setColorInput, colorError }) {
 
   return (
     <Flex
@@ -52,6 +52,7 @@ function DropDownComboBoxWithColorPicker({ tagInput, setTagInput, colorInput, se
         maw={tagInput.length === 0 ? '0%' : '30%'}
         clearable
         style={{ display: tagInput.length === 0 ? 'none' : 'block' }}
+        error={colorError ? 'Color is required with a tag' : false}
         withAsterisk
       />
     </Flex>
@@ -87,21 +88,24 @@ export default function CalendarModal({ editMode, setEditMode, event, events, se
   }
 
   const handleSave = () => {
+    console.log(endInput)
     if (!editMode) return;
 
-    if (!titleInput || titleInput === '') setTitleError(true);
-    else setTitleError(false);
+    let hasError = false;
 
-    if (!startInput) setStartError(true);
-    else setStartError(false);
+    if (!titleInput || titleInput === '') { setTitleError(true); hasError = true; }
+    else { setTitleError(false); }
 
-    if (!endInput) setEndError(true);
-    else setEndError(false);
+    if (!startInput) { setStartError(true); hasError = true; }
+    else { setStartError(false); }
 
-    if (!colorInput) setColorError(true);
-    else setColorError(false);
-    
-    if (titleError && startError && endError && colorError) return;
+    if (!endInput) { setEndError(true); hasError = true; }
+    else { setEndError(false); }
+
+    if (!colorInput) { setColorError(true); hasError = true; }
+    else { setColorError(false); }
+
+    if (hasError) return;
 
     let updatedEvents = [...events];
     if (editMode === 'edit') {
@@ -161,6 +165,7 @@ export default function CalendarModal({ editMode, setEditMode, event, events, se
           onDateChange={setStartDate}
           miw={'47.5%'}
           maw={'47.5%'}
+          error={startError ? 'Start date is required' : false}
           clearable
         />
         <DateTimePicker
@@ -174,10 +179,11 @@ export default function CalendarModal({ editMode, setEditMode, event, events, se
           onDateChange={setEndDate}
           miw={'47.5%'}
           maw={'47.5%'}
+          error={endError ? 'End date is required' : false}
           clearable
         />
       </Flex>
-      <DropDownComboBoxWithColorPicker tagInput={tagInput} setTagInput={setTagInput} colorInput={colorInput} setColorInput={setColorInput} />
+      <DropDownComboBoxWithColorPicker tagInput={tagInput} setTagInput={setTagInput} colorInput={colorInput} setColorInput={setColorInput} colorError={colorError} />
       <Textarea
         label="Description"
         description="(Optional)"
