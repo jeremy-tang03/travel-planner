@@ -1,4 +1,5 @@
 import { useDisclosure } from '@mantine/hooks';
+import { useForm } from '@mantine/form';
 import { Modal, Button, Flex, TextInput, Textarea, Combobox, useCombobox, ColorInput, TagsInput } from '@mantine/core';
 import { DateTimePicker } from '@mantine/dates';
 import '@mantine/dates/styles.css';
@@ -29,7 +30,6 @@ function DropDownComboBoxWithColorPicker({ tagInput, setTagInput, colorInput, se
       wrap="wrap"
       mt={'xs'}
     >
-
       <TagsInput
         label="Tag"
         description="(Optional)"
@@ -41,6 +41,7 @@ function DropDownComboBoxWithColorPicker({ tagInput, setTagInput, colorInput, se
         maxDropdownHeight={200}
         miw={tagInput.length === 0 ? '100%' : '65%'}
         maw={tagInput.length === 0 ? '100%' : '65%'}
+        acceptValueOnBlur={false}
         clearable
       />
       <ColorInput
@@ -51,10 +52,9 @@ function DropDownComboBoxWithColorPicker({ tagInput, setTagInput, colorInput, se
         miw={tagInput.length === 0 ? '0%' : '30%'}
         maw={tagInput.length === 0 ? '0%' : '30%'}
         clearable
-        style={{display: tagInput.length === 0 ? 'none' : 'block'}}
+        style={{ display: tagInput.length === 0 ? 'none' : 'block' }}
         withAsterisk
       />
-
     </Flex>
   );
 }
@@ -69,6 +69,15 @@ export default function CalendarModal({ editMode, setEditMode, event, events, se
   const [endDate, setEndDate] = useState(event.end);
   const [tagInput, setTagInput] = useState(event.tag ? (Array.isArray(event.tag) ? event.tag : [event.tag]) : []);
   const [colorInput, setColorInput] = useState(event.tag && event.color ? event.color : getRandomHexColor());
+
+  const form = useForm({
+    mode: 'uncontrolled',
+    validate: {
+      title: (value) => (value.trim().length < 1 ? 'Title is required' : null),
+      startDate: (value) => (value !== undefined ? 'Start date is required' : null),
+      endDate: (value) => (value !== undefined ? 'End date is required' : null),
+    },
+  });
 
   useEffect(() => {
     // setStartInput(event.start);
@@ -85,8 +94,6 @@ export default function CalendarModal({ editMode, setEditMode, event, events, se
 
   const handleSave = () => {
     if (!editMode) return;
-
-    console.log(tagInput);
 
     let updatedEvents = [...events];
     if (editMode === 'edit') {
@@ -111,7 +118,6 @@ export default function CalendarModal({ editMode, setEditMode, event, events, se
         ...(descInput !== '' && { desc: descInput })
       });
     }
-    console.log(updatedEvents);
     setEvents(updatedEvents);
     setUserEdit(Math.random());
     handleClose();
@@ -119,59 +125,64 @@ export default function CalendarModal({ editMode, setEditMode, event, events, se
 
   return (
     <Modal opened={opened} onClose={handleClose} title={editMode === 'edit' ? "Edit Event" : "Add Event"}>
-      <TextInput
-        label="Title"
-        withAsterisk
-        placeholder="Enter event title"
-        value={titleInput}
-        onChange={(event) => setTitleInput(event.currentTarget.value)}
-        data-autofocus
-      />
-      <Flex
-        gap="md"
-        justify="center"
-        align="center"
-        direction="row"
-        wrap="wrap"
-        mt={'xs'}
-      >
-        <DateTimePicker
-          label="Start"
+      <form onSubmit={form.onSubmit(handleSave)}>
+        <TextInput
+          label="Title"
+          key={form.key('title')}
           withAsterisk
-          description="DD/MM/YYYY HH:MM"
-          placeholder="Pick date and time"
-          value={startInput}
-          onChange={setStartInput}
-          date={startDate}
-          onDateChange={setStartDate}
-          miw={'47.5%'}
-          maw={'47.5%'}
-          clearable
+          placeholder="Enter event title"
+          value={titleInput}
+          onChange={(event) => setTitleInput(event.currentTarget.value)}
+          data-autofocus
         />
-        <DateTimePicker
-          label="End"
-          withAsterisk
-          description="DD/MM/YYYY HH:MM"
-          placeholder="Pick date and time"
-          value={endInput}
-          onChange={setEndInput}
-          date={endDate}
-          onDateChange={setEndDate}
-          miw={'47.5%'}
-          maw={'47.5%'}
-          clearable
+        <Flex
+          gap="md"
+          justify="center"
+          align="center"
+          direction="row"
+          wrap="wrap"
+          mt={'xs'}
+        >
+          <DateTimePicker
+            label="Start"
+            key={form.key('startDate')}
+            withAsterisk
+            description="DD/MM/YYYY HH:MM"
+            placeholder="Pick date and time"
+            value={startInput}
+            onChange={setStartInput}
+            date={startDate}
+            onDateChange={setStartDate}
+            miw={'47.5%'}
+            maw={'47.5%'}
+            clearable
+          />
+          <DateTimePicker
+            label="End"
+            key={form.key('endDate')}
+            withAsterisk
+            description="DD/MM/YYYY HH:MM"
+            placeholder="Pick date and time"
+            value={endInput}
+            onChange={setEndInput}
+            date={endDate}
+            onDateChange={setEndDate}
+            miw={'47.5%'}
+            maw={'47.5%'}
+            clearable
+          />
+        </Flex>
+        <DropDownComboBoxWithColorPicker tagInput={tagInput} setTagInput={setTagInput} colorInput={colorInput} setColorInput={setColorInput} />
+        <Textarea
+          label="Description"
+          description="(Optional)"
+          placeholder="Add a description"
+          value={descInput}
+          onChange={(event) => setDescInput(event.currentTarget.value)}
+          style={{ width: '100%' }}
+          mt={'xs'}
         />
-      </Flex>
-      <DropDownComboBoxWithColorPicker tagInput={tagInput} setTagInput={setTagInput} colorInput={colorInput} setColorInput={setColorInput} />
-      <Textarea
-        label="Description"
-        description="(Optional)"
-        placeholder="Add a description"
-        value={descInput}
-        onChange={(event) => setDescInput(event.currentTarget.value)}
-        style={{ width: '100%' }}
-        mt={'xs'}
-      />
+      </form>
       <Flex
         mih={50}
         gap="md"
@@ -181,7 +192,7 @@ export default function CalendarModal({ editMode, setEditMode, event, events, se
         wrap="wrap"
         style={{ 'margin': '1.75em 0 0 0' }}
       >
-        <Button onClick={handleSave} miw={'6em'}>{editMode === 'edit' ? 'Save' : 'Add'}</Button>
+        <Button type='submit' miw={'6em'}>{editMode === 'edit' ? 'Save' : 'Add'}</Button>
         <Button onClick={handleClose} miw={'6em'}>Cancel</Button>
       </Flex>
     </Modal>
