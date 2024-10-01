@@ -1,25 +1,82 @@
 import { useDisclosure } from '@mantine/hooks';
-import { Modal, Button, Flex, TextInput, Textarea } from '@mantine/core';
+import { Modal, Button, Flex, TextInput, Textarea, Combobox, useCombobox, ColorInput, TagsInput } from '@mantine/core';
 import { DateTimePicker } from '@mantine/dates';
 import '@mantine/dates/styles.css';
 import { useState, useEffect } from 'react';
 
+const groceries = ['🍎 Apples', '🍌 Bananas', '🥦 Broccoli', '🥕 Carrots', '🍫 Chocolate'];
+
+function getRandomHexColor() {
+  // Generate a random number between 0 and 255 for each color channel (red, green, blue)
+  const r = Math.floor(Math.random() * 256);
+  const g = Math.floor(Math.random() * 256);
+  const b = Math.floor(Math.random() * 256);
+
+  // Convert each color channel to a 2-digit hexadecimal string and concatenate them
+  const hex = '#' + r.toString(16).padStart(2, '0') + g.toString(16).padStart(2, '0') + b.toString(16).padStart(2, '0');
+
+  return hex;
+}
+
+function DropDownComboBoxWithColorPicker({ tagInput, setTagInput, colorInput, setColorInput, colorError }) {
+
+  return (
+    <Flex
+      gap="md"
+      justify="flex-start"
+      align="center"
+      direction="row"
+      wrap="wrap"
+      mt={'xs'}
+    >
+      <TagsInput
+        label="Tag"
+        description="(Optional)"
+        placeholder={tagInput.length === 0 ? "Pick a tag or create one (press Enter)" : ""}
+        data={groceries}
+        value={tagInput}
+        onChange={setTagInput}
+        maxTags={1}
+        maxDropdownHeight={200}
+        miw={tagInput.length === 0 ? '100%' : '65%'}
+        maw={tagInput.length === 0 ? '100%' : '65%'}
+        acceptValueOnBlur={false}
+        clearable
+      />
+      <ColorInput
+        label="Tag Color"
+        description="Event Color"
+        value={colorInput}
+        onChange={setColorInput}
+        miw={tagInput.length === 0 ? '0%' : '30%'}
+        maw={tagInput.length === 0 ? '0%' : '30%'}
+        clearable
+        style={{ display: tagInput.length === 0 ? 'none' : 'block' }}
+        error={colorError ? 'Color is required with a tag' : false}
+        withAsterisk
+      />
+    </Flex>
+  );
+}
+
 export default function CalendarModal({ editMode, setEditMode, event, events, setEvents, setUserEdit }) {
   const [opened, { open, close }] = useDisclosure(false);
-  const [titleInput, setTitleInput] = useState('');
+  const [titleInput, setTitleInput] = useState(event.title ? event.title : '');
+  const [titleError, setTitleError] = useState(false);
   const [startInput, setStartInput] = useState(event.start);
+  const [startError, setStartError] = useState(false);
   const [endInput, setEndInput] = useState(event.end);
-  const [descInput, setDescInput] = useState('');
+  const [endError, setEndError] = useState(false);
+  const [descInput, setDescInput] = useState(event.desc ? event.desc : '');
   const [startDate, setStartDate] = useState(event.start);
   const [endDate, setEndDate] = useState(event.end);
+  const [tagInput, setTagInput] = useState(event.tag ? (Array.isArray(event.tag) ? event.tag : [event.tag]) : []);
+  const [colorInput, setColorInput] = useState(event.tag && event.color ? event.color : getRandomHexColor());
+  const [colorError, setColorError] = useState(false);
 
   useEffect(() => {
-    if (editMode === 'edit') {
-      setTitleInput(event.title);
-      setDescInput(event.desc ? event.desc : '');
-    }
-    setStartInput(event.start);
-    setEndInput(event.end);
+    // setStartInput(event.start);
+    // setEndInput(event.end);
     open();
   }, [editMode, open]);
 
@@ -31,15 +88,34 @@ export default function CalendarModal({ editMode, setEditMode, event, events, se
   }
 
   const handleSave = () => {
+    console.log(endInput)
     if (!editMode) return;
+
+    let hasError = false;
+
+    if (!titleInput || titleInput === '') { setTitleError(true); hasError = true; }
+    else { setTitleError(false); }
+
+    if (!startInput) { setStartError(true); hasError = true; }
+    else { setStartError(false); }
+
+    if (!endInput) { setEndError(true); hasError = true; }
+    else { setEndError(false); }
+
+    if (!colorInput) { setColorError(true); hasError = true; }
+    else { setColorError(false); }
+
+    if (hasError) return;
 
     let updatedEvents = [...events];
     if (editMode === 'edit') {
       updatedEvents[events.findIndex(obj => obj.id === event.id)] = {
-        ...event,
+        id: event.id,
         title: titleInput,
         start: startInput,
         end: endInput,
+        ...(tagInput.length !== 0 && { tag: tagInput }),
+        ...(tagInput.length !== 0 && { color: colorInput }),
         ...(descInput !== '' && { desc: descInput })
       };
     } else if (editMode === 'add') {
@@ -49,6 +125,8 @@ export default function CalendarModal({ editMode, setEditMode, event, events, se
         title: titleInput,
         start: startInput,
         end: endInput,
+        ...(tagInput.length !== 0 && { tag: tagInput }),
+        ...(tagInput.length !== 0 && { color: colorInput }),
         ...(descInput !== '' && { desc: descInput })
       });
     }
@@ -56,7 +134,7 @@ export default function CalendarModal({ editMode, setEditMode, event, events, se
     setUserEdit(Math.random());
     handleClose();
   }
-  //TODO: Add colors
+
   return (
     <Modal opened={opened} onClose={handleClose} title={editMode === 'edit' ? "Edit Event" : "Add Event"}>
       <TextInput
@@ -65,6 +143,7 @@ export default function CalendarModal({ editMode, setEditMode, event, events, se
         placeholder="Enter event title"
         value={titleInput}
         onChange={(event) => setTitleInput(event.currentTarget.value)}
+        error={titleError ? 'Title is required' : false}
         data-autofocus
       />
       <Flex
@@ -73,6 +152,7 @@ export default function CalendarModal({ editMode, setEditMode, event, events, se
         align="center"
         direction="row"
         wrap="wrap"
+        mt={'xs'}
       >
         <DateTimePicker
           label="Start"
@@ -83,8 +163,9 @@ export default function CalendarModal({ editMode, setEditMode, event, events, se
           onChange={setStartInput}
           date={startDate}
           onDateChange={setStartDate}
-          mt={'xs'}
-          miw={'48%'}
+          miw={'47.5%'}
+          maw={'47.5%'}
+          error={startError ? 'Start date is required' : false}
           clearable
         />
         <DateTimePicker
@@ -96,20 +177,22 @@ export default function CalendarModal({ editMode, setEditMode, event, events, se
           onChange={setEndInput}
           date={endDate}
           onDateChange={setEndDate}
-          mt={'xs'}
-          miw={'48%'}
+          miw={'47.5%'}
+          maw={'47.5%'}
+          error={endError ? 'End date is required' : false}
           clearable
         />
-        <Textarea
-          label="Description"
-          description="(Optional)"
-          placeholder="Add a description"
-          value={descInput}
-          onChange={(event) => setDescInput(event.currentTarget.value)}
-          style={{ width: '100%' }}
-        />
       </Flex>
-
+      <DropDownComboBoxWithColorPicker tagInput={tagInput} setTagInput={setTagInput} colorInput={colorInput} setColorInput={setColorInput} colorError={colorError} />
+      <Textarea
+        label="Description"
+        description="(Optional)"
+        placeholder="Add a description"
+        value={descInput}
+        onChange={(event) => setDescInput(event.currentTarget.value)}
+        style={{ width: '100%' }}
+        mt={'xs'}
+      />
       <Flex
         mih={50}
         gap="md"

@@ -13,7 +13,7 @@ import { UserContext } from '../UserProvider';
 import { DataContext } from '../DataProvider';
 
 const loc = window.location.hostname;
-const WS_URL = `ws://${loc}:3001`;
+const WS_URL = `wss://${loc}:3001`;
 
 function isUserEvent(message) {
   let evt = JSON.parse(message.data);
@@ -135,7 +135,7 @@ export default function Home() {
       if (user.code) {
         let users;
         const sheetsData = await getSheetsData(user.code);
-        await fetch(`http://${loc}:3001/api/users`)
+        await fetch(`https://${loc}:3001/api/users`)
           .then(response => response.json())
           .then(data => users = data.message);
         if (Object.keys(users).length > 1) {
